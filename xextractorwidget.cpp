@@ -32,3 +32,8 @@ XExtractorWidget::~XExtractorWidget()
 {
     delete ui;
 }
+
+void XExtractorWidget::setData(QIODevice *pDevice)
+{
+
+}

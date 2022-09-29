@@ -33,6 +33,11 @@ DialogXExtractor::~DialogXExtractor()
     delete ui;
 }
 
+void DialogXExtractor::setData(QIODevice *pDevice)
+{
+    ui->widgetExtractor->setData(pDevice);
+}
+
 void DialogXExtractor::on_pushButtonClose_clicked()
 {
     this->close();

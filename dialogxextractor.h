@@ -35,6 +35,8 @@ public:
     explicit DialogXExtractor(QWidget *pParent=nullptr);
     ~DialogXExtractor();
 
+    void setData(QIODevice *pDevice);
+
 private slots:
     void on_pushButtonClose_clicked();
 

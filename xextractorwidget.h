@@ -35,6 +35,8 @@ public:
     explicit XExtractorWidget(QWidget *pParent=nullptr);
     ~XExtractorWidget();
 
+    void setData(QIODevice *pDevice);
+
 private:
     Ui::XExtractorWidget *ui;
 };
