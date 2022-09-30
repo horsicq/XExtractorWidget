@@ -26,6 +26,9 @@ XExtractorWidget::XExtractorWidget(QWidget *pParent) :
     ui(new Ui::XExtractorWidget)
 {
     ui->setupUi(this);
+
+    g_pDevice=nullptr;
+    g_options={};
 }
 
 XExtractorWidget::~XExtractorWidget()
@@ -33,7 +36,13 @@ XExtractorWidget::~XExtractorWidget()
     delete ui;
 }
 
-void XExtractorWidget::setData(QIODevice *pDevice)
+void XExtractorWidget::setData(QIODevice *pDevice,OPTIONS options,bool bAuto)
 {
+    g_pDevice=pDevice;
+    g_options=options;
 
+    if(bAuto)
+    {
+        // TODO
+    }
 }

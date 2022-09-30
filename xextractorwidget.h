@@ -32,13 +32,20 @@ class XExtractorWidget : public QWidget
     Q_OBJECT
 
 public:
+    struct OPTIONS
+    {
+        bool bDummy;
+    };
+
     explicit XExtractorWidget(QWidget *pParent=nullptr);
     ~XExtractorWidget();
 
-    void setData(QIODevice *pDevice);
+    void setData(QIODevice *pDevice,OPTIONS options,bool bAuto);
 
 private:
     Ui::XExtractorWidget *ui;
+    QIODevice *g_pDevice;
+    OPTIONS g_options;
 };
 
 #endif // XEXTRACTORWIDGET_H
