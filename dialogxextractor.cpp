@@ -35,7 +35,9 @@ DialogXExtractor::~DialogXExtractor()
 
 void DialogXExtractor::setData(QIODevice *pDevice)
 {
-    ui->widgetExtractor->setData(pDevice);
+    XExtractorWidget::OPTIONS options={};
+
+    ui->widgetExtractor->setData(pDevice,options,true);
 }
 
 void DialogXExtractor::on_pushButtonClose_clicked()

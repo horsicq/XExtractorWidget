@@ -34,7 +34,12 @@ class XExtractorWidget : public QWidget
 public:
     struct OPTIONS
     {
-        bool bDummy;
+        bool bPE;
+        bool bELF;
+        bool bMACHO;
+        bool bMACHOFAT;
+        bool bZIP;
+        bool bRAR;
     };
 
     explicit XExtractorWidget(QWidget *pParent=nullptr);
