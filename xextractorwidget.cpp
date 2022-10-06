@@ -36,7 +36,7 @@ XExtractorWidget::~XExtractorWidget()
     delete ui;
 }
 
-void XExtractorWidget::setData(QIODevice *pDevice,OPTIONS options,bool bAuto)
+void XExtractorWidget::setData(QIODevice *pDevice,XExtractor::OPTIONS options,bool bAuto)
 {
     g_pDevice=pDevice;
     g_options=options;

@@ -22,6 +22,7 @@
 #define XEXTRACTORWIDGET_H
 
 #include <QWidget>
+#include "xextractor.h"
 
 namespace Ui {
 class XExtractorWidget;
@@ -32,25 +33,16 @@ class XExtractorWidget : public QWidget
     Q_OBJECT
 
 public:
-    struct OPTIONS
-    {
-        bool bPE;
-        bool bELF;
-        bool bMACHO;
-        bool bMACHOFAT;
-        bool bZIP;
-        bool bRAR;
-    };
 
     explicit XExtractorWidget(QWidget *pParent=nullptr);
     ~XExtractorWidget();
 
-    void setData(QIODevice *pDevice,OPTIONS options,bool bAuto);
+    void setData(QIODevice *pDevice,XExtractor::OPTIONS options,bool bAuto);
 
 private:
     Ui::XExtractorWidget *ui;
     QIODevice *g_pDevice;
-    OPTIONS g_options;
+    XExtractor::OPTIONS g_options;
 };
 
 #endif // XEXTRACTORWIDGET_H

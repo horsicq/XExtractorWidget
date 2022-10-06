@@ -27,7 +27,7 @@ class DialogExtractorProcess : public QWidget
 {
     Q_OBJECT
 public:
-    explicit DialogExtractorProcess(QWidget *parent = nullptr);
+    explicit DialogExtractorProcess(QWidget *pParent=nullptr);
 
 signals:
 

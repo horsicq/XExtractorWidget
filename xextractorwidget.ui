@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Extract</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="leftMargin">
@@ -55,7 +55,7 @@
      <item>
       <widget class="QPushButton" name="pushButtonDumpAll">
        <property name="text">
-        <string>All</string>
+        <string>Extract all</string>
        </property>
       </widget>
      </item>

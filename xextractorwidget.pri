@@ -20,6 +20,11 @@ SOURCES += \
     include($$PWD/../XShortcuts/xshortcuts.pri)
 }
 
+!contains(XCONFIG, xextractor) {
+    XCONFIG += xextractor
+    include($$PWD/../XExtractor/xextractor.pri)
+}
+
 DISTFILES += \
     $$PWD/LICENSE \
     $$PWD/README.md \
