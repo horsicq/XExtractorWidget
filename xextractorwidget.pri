@@ -1,10 +1,6 @@
 INCLUDEPATH += $$PWD
 DEPENDPATH += $$PWD
 
-FORMS += \
-    $$PWD/dialogxextractor.ui \
-    $$PWD/xextractorwidget.ui
-
 HEADERS += \
     $$PWD/dialogextractorprocess.h \
     $$PWD/dialogxextractor.h \
@@ -14,6 +10,10 @@ SOURCES += \
     $$PWD/dialogextractorprocess.cpp \
     $$PWD/dialogxextractor.cpp \
     $$PWD/xextractorwidget.cpp
+
+FORMS += \
+    $$PWD/dialogxextractor.ui \
+    $$PWD/xextractorwidget.ui
 
 !contains(XCONFIG, xshortcuts) {
     XCONFIG += xshortcuts
