@@ -43,6 +43,22 @@ void XExtractorWidget::setData(QIODevice *pDevice,XExtractor::OPTIONS options,bo
 
     if(bAuto)
     {
+        reload();
+    }
+}
+
+void XExtractorWidget::reload()
+{
+    XExtractor::DATA extractor_data={};
+
+    extractor_data.options=g_options;
+
+    DialogExtractorProcess dep(XOptions::getMainWidget(this),g_pDevice,&extractor_data);
+
+    dep.showDialogDelay(1000);
+
+    if(dep.isSuccess())
+    {
         // TODO
     }
 }

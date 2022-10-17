@@ -15,14 +15,14 @@ FORMS += \
     $$PWD/dialogxextractor.ui \
     $$PWD/xextractorwidget.ui
 
-!contains(XCONFIG, xshortcuts) {
-    XCONFIG += xshortcuts
-    include($$PWD/../XShortcuts/xshortcuts.pri)
-}
-
 !contains(XCONFIG, xextractor) {
     XCONFIG += xextractor
     include($$PWD/../XExtractor/xextractor.pri)
+}
+
+!contains(XCONFIG, xdialogprocess) {
+    XCONFIG += xdialogprocess
+    include($$PWD/../FormatDialogs/xdialogprocess.pri)
 }
 
 DISTFILES += \

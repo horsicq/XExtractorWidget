@@ -21,15 +21,23 @@
 #ifndef DIALOGEXTRACTORPROCESS_H
 #define DIALOGEXTRACTORPROCESS_H
 
-#include <QWidget>
+#include "xextractor.h"
+#include "xoptions.h"
+#include "xdialogprocess.h"
 
-class DialogExtractorProcess : public QWidget
+class DialogExtractorProcess : public XDialogProcess
 {
     Q_OBJECT
 public:
     explicit DialogExtractorProcess(QWidget *pParent=nullptr);
+    DialogExtractorProcess(QWidget *pParent,QIODevice *pDevice,XExtractor::DATA *pData);
+    ~DialogExtractorProcess();
 
-signals:
+    void setData(QIODevice *pDevice,XExtractor::DATA *pData);
+
+private:
+    XExtractor *g_pXExtractor;
+    QThread *g_pThread;
 
 };
 

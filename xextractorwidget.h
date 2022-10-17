@@ -21,8 +21,7 @@
 #ifndef XEXTRACTORWIDGET_H
 #define XEXTRACTORWIDGET_H
 
-#include <QWidget>
-#include "xextractor.h"
+#include "dialogextractorprocess.h"
 
 namespace Ui {
 class XExtractorWidget;
@@ -38,6 +37,7 @@ public:
     ~XExtractorWidget();
 
     void setData(QIODevice *pDevice,XExtractor::OPTIONS options,bool bAuto);
+    void reload();
 
 private:
     Ui::XExtractorWidget *ui;
