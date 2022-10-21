@@ -22,7 +22,7 @@
 #include "ui_xextractorwidget.h"
 
 XExtractorWidget::XExtractorWidget(QWidget *pParent) :
-    QWidget(pParent),
+    XShortcutsWidget(pParent),
     ui(new Ui::XExtractorWidget)
 {
     ui->setupUi(this);
@@ -61,4 +61,10 @@ void XExtractorWidget::reload()
     {
         // TODO
     }
+}
+
+void XExtractorWidget::registerShortcuts(bool bState)
+{
+    Q_UNUSED(bState)
+    // TODO
 }

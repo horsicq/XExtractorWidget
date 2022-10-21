@@ -22,12 +22,13 @@
 #define XEXTRACTORWIDGET_H
 
 #include "dialogextractorprocess.h"
+#include "xshortcutswidget.h"
 
 namespace Ui {
 class XExtractorWidget;
 }
 
-class XExtractorWidget : public QWidget
+class XExtractorWidget : public XShortcutsWidget
 {
     Q_OBJECT
 
@@ -38,6 +39,9 @@ public:
 
     void setData(QIODevice *pDevice,XExtractor::OPTIONS options,bool bAuto);
     void reload();
+
+protected:
+    virtual void registerShortcuts(bool bState);
 
 private:
     Ui::XExtractorWidget *ui;
