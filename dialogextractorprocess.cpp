@@ -51,7 +51,7 @@ DialogExtractorProcess::~DialogExtractorProcess()
     delete g_pXExtractor;
 }
 
-void DialogExtractorProcess::setData(QIODevice *pDevice, XExtractor::DATA *pData)
+void DialogExtractorProcess::setData(QIODevice *pDevice,XExtractor::DATA *pData)
 {
     g_pXExtractor->setData(pDevice,pData,getPdStruct());
     g_pThread->start();
