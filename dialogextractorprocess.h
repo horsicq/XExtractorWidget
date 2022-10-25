@@ -38,7 +38,6 @@ public:
 private:
     XExtractor *g_pXExtractor;
     QThread *g_pThread;
-
 };
 
 #endif // DIALOGEXTRACTORPROCESS_H
