@@ -25,6 +25,11 @@ FORMS += \
     include($$PWD/../FormatDialogs/xdialogprocess.pri)
 }
 
+!contains(XCONFIG, dialogdump) {
+    XCONFIG += dialogdump
+    include($$PWD/../FormatDialogs/dialogdump.pri)
+}
+
 DISTFILES += \
     $$PWD/LICENSE \
     $$PWD/README.md \

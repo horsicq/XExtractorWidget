@@ -21,6 +21,7 @@
 #ifndef XEXTRACTORWIDGET_H
 #define XEXTRACTORWIDGET_H
 
+#include "dialogdumpprocess.h"
 #include "dialogextractorprocess.h"
 #include "xshortcutswidget.h"
 
@@ -33,12 +34,17 @@ class XExtractorWidget : public XShortcutsWidget
     Q_OBJECT
 
 public:
-
     explicit XExtractorWidget(QWidget *pParent=nullptr);
     ~XExtractorWidget();
 
     void setData(QIODevice *pDevice,XExtractor::OPTIONS options,bool bAuto);
     void reload();
+
+private slots:
+    void pushButtonAction();
+    void on_pushButtonScan_clicked();
+    void on_pushButtonSave_clicked();
+    void on_pushButtonDumpAll_clicked();
 
 protected:
     virtual void registerShortcuts(bool bState);
