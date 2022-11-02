@@ -35,12 +35,7 @@ DialogXExtractor::~DialogXExtractor()
 
 void DialogXExtractor::setData(QIODevice *pDevice)
 {
-    XExtractor::OPTIONS options={};
-
-    options.fileTypes.insert(XBinary::FT_7Z);
-    // TODO more
-
-    ui->widgetExtractor->setData(pDevice,options,true);
+    ui->widgetExtractor->setData(pDevice,XExtractorWidget::getDefaultOptions(),true);
 }
 
 void DialogXExtractor::on_pushButtonClose_clicked()

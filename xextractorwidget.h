@@ -39,12 +39,14 @@ public:
 
     void setData(QIODevice *pDevice,XExtractor::OPTIONS options,bool bAuto);
     void reload();
+    static XExtractor::OPTIONS getDefaultOptions();
 
 private slots:
-    void pushButtonAction();
     void on_pushButtonScan_clicked();
     void on_pushButtonSave_clicked();
     void on_pushButtonDumpAll_clicked();
+    void on_tableViewResult_customContextMenuRequested(const QPoint &pos);
+    void dumpToFile();
 
 protected:
     virtual void registerShortcuts(bool bState);
