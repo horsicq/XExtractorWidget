@@ -29,6 +29,9 @@ XExtractorWidget::XExtractorWidget(QWidget *pParent) :
 
     g_pDevice=nullptr;
     g_options={};
+
+    ui->comboBoxOptions->addCustomFlag(0,"TEST",false);
+    ui->comboBoxOptions->addCustomFlag(1,"TEST2",true);
 }
 
 XExtractorWidget::~XExtractorWidget()
@@ -79,6 +82,7 @@ void XExtractorWidget::reload()
 
                 pItem->setData(extractor_data.listRecords.at(i).nOffset,Qt::UserRole+0);
                 pItem->setData(extractor_data.listRecords.at(i).nSize,Qt::UserRole+1);
+                pItem->setData(extractor_data.listRecords.at(i).sExt,Qt::UserRole+2);
 
                 pItem->setTextAlignment(Qt::AlignRight|Qt::AlignVCenter);
 
@@ -159,7 +163,14 @@ void XExtractorWidget::on_pushButtonSave_clicked()
 
 void XExtractorWidget::on_pushButtonDumpAll_clicked()
 {
-    // TODO
+    QString sDirectory=QFileDialog::getExistingDirectory(this,tr("Dump all"),XBinary::getDeviceDirectory(g_pDevice));
+
+    if(!sDirectory.isEmpty())
+    {
+//        DialogDumpProcess dd(this,g_pDevice,nOffset,nSize,sDirectory,DumpProcess::DT_OFFSET);
+
+//        dd.showDialogDelay(1000);
+    }
 }
 
 void XExtractorWidget::on_tableViewResult_customContextMenuRequested(const QPoint &pos)
@@ -185,13 +196,15 @@ void XExtractorWidget::dumpToFile()
     {
         QModelIndex index=ui->tableViewResult->selectionModel()->selectedIndexes().at(0);
 
+        // TODO a function
         qint64 nOffset=ui->tableViewResult->model()->data(index,Qt::UserRole+0).toLongLong();
         qint64 nSize=ui->tableViewResult->model()->data(index,Qt::UserRole+1).toLongLong();
+        QString sExt=ui->tableViewResult->model()->data(index,Qt::UserRole+2).toString();
 
         QString sName=QString("%1_%2").arg(XBinary::valueToHexEx(nOffset),XBinary::valueToHexEx(nSize));
 
-        QString sSaveFileName=XBinary::getResultFileName(g_pDevice,QString("%1.bin").arg(sName)); // TODO FileType to ext
-        QString sFileName=QFileDialog::getSaveFileName(this,tr("Save dump"),sSaveFileName,QString("%1 (*.bin)").arg(tr("Raw data")));
+        QString sSaveFileName=XBinary::getResultFileName(g_pDevice,QString("%1.%2").arg(sName,sExt));
+        QString sFileName=QFileDialog::getSaveFileName(this,tr("Save dump"),sSaveFileName);
 
         if(!sFileName.isEmpty())
         {
