@@ -39,7 +39,6 @@ public:
 
     void setData(QIODevice *pDevice,XExtractor::OPTIONS options,bool bAuto);
     void reload();
-    static XExtractor::OPTIONS getDefaultOptions();
 
 private slots:
     void on_pushButtonScan_clicked();
@@ -54,7 +53,6 @@ protected:
 private:
     Ui::XExtractorWidget *ui;
     QIODevice *g_pDevice;
-    XExtractor::OPTIONS g_options;
 };
 
 #endif // XEXTRACTORWIDGET_H

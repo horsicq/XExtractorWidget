@@ -28,10 +28,19 @@ XExtractorWidget::XExtractorWidget(QWidget *pParent) :
     ui->setupUi(this);
 
     g_pDevice=nullptr;
-    g_options={};
 
-    ui->comboBoxOptions->addCustomFlag(0,"TEST",false);
-    ui->comboBoxOptions->addCustomFlag(1,"TEST2",true);
+    QList<XComboBoxEx::CUSTOM_FLAG> listCustomFlags;
+
+    QList<XBinary::FT> listFileTypes=XExtractor::getAvailableFileTypes();
+
+    qint32 nNumberOfRecords=listFileTypes.count();
+
+    for(qint32 i=0;i<nNumberOfRecords;i++)
+    {
+        XComboBoxEx::addCustomFlag(&listCustomFlags,listFileTypes.at(i),XBinary::fileTypeIdToString(listFileTypes.at(i)),false);
+    }
+
+    ui->comboBoxOptions->addCustomFlags(listCustomFlags);
 }
 
 XExtractorWidget::~XExtractorWidget()
@@ -42,7 +51,13 @@ XExtractorWidget::~XExtractorWidget()
 void XExtractorWidget::setData(QIODevice *pDevice,XExtractor::OPTIONS options,bool bAuto)
 {
     g_pDevice=pDevice;
-    g_options=options;
+
+    qint32 nNumberOfRecords=options.listFileTypes.count();
+
+    for(qint32 i=0;i<nNumberOfRecords;i++)
+    {
+        ui->comboBoxOptions->setCustomFlag(options.listFileTypes.at(i));
+    }
 
     if(bAuto)
     {
@@ -54,7 +69,16 @@ void XExtractorWidget::reload()
 {
     XExtractor::DATA extractor_data={};
 
-    extractor_data.options=g_options;
+    QList<quint64> listFlags=ui->comboBoxOptions->getCustomFlags();
+
+    qint32 nNumberOfRecords=listFlags.count();
+
+    for(qint32 i=0;i<nNumberOfRecords;i++)
+    {
+        extractor_data.options.listFileTypes.append((XBinary::FT)listFlags.at(i));
+    }
+
+//    extractor_data.options=g_options;
 
     DialogExtractorProcess dep(XOptions::getMainWidget(this),g_pDevice,&extractor_data);
 
@@ -135,16 +159,6 @@ void XExtractorWidget::reload()
     }
 }
 
-XExtractor::OPTIONS XExtractorWidget::getDefaultOptions()
-{
-    XExtractor::OPTIONS result={};
-
-    result.fileTypes.insert(XBinary::FT_PE);
-    result.fileTypes.insert(XBinary::FT_7Z);
-
-    return result;
-}
-
 void XExtractorWidget::registerShortcuts(bool bState)
 {
     Q_UNUSED(bState)
@@ -204,6 +218,8 @@ void XExtractorWidget::dumpToFile()
         QString sName=QString("%1_%2").arg(XBinary::valueToHexEx(nOffset),XBinary::valueToHexEx(nSize));
 
         QString sSaveFileName=XBinary::getResultFileName(g_pDevice,QString("%1.%2").arg(sName,sExt));
+
+
         QString sFileName=QFileDialog::getSaveFileName(this,tr("Save dump"),sSaveFileName);
 
         if(!sFileName.isEmpty())
