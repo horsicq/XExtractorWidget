@@ -181,6 +181,7 @@ void XExtractorWidget::on_pushButtonDumpAll_clicked()
 
     if(!sDirectory.isEmpty())
     {
+        // TODO DialogDumpProcess
 //        DialogDumpProcess dd(this,g_pDevice,nOffset,nSize,sDirectory,DumpProcess::DT_OFFSET);
 
 //        dd.showDialogDelay(1000);
