@@ -78,8 +78,6 @@ void XExtractorWidget::reload()
         extractor_data.options.listFileTypes.append((XBinary::FT)listFlags.at(i));
     }
 
-//    extractor_data.options=g_options;
-
     DialogExtractorProcess dep(XOptions::getMainWidget(this),g_pDevice,&extractor_data);
 
     dep.showDialogDelay(1000);
