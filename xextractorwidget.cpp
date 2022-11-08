@@ -37,7 +37,7 @@ XExtractorWidget::XExtractorWidget(QWidget *pParent) :
 
     for(qint32 i=0;i<nNumberOfRecords;i++)
     {
-        XComboBoxEx::addCustomFlag(&listCustomFlags,listFileTypes.at(i),XBinary::fileTypeIdToString(listFileTypes.at(i)),false);
+        XComboBoxEx::_addCustomFlag(&listCustomFlags,listFileTypes.at(i),XBinary::fileTypeIdToString(listFileTypes.at(i)),false);
     }
 
     ui->comboBoxOptions->addCustomFlags(listCustomFlags);
@@ -67,6 +67,8 @@ void XExtractorWidget::setData(QIODevice *pDevice,XExtractor::OPTIONS options,bo
 
 void XExtractorWidget::reload()
 {
+    ui->labelSize->setText(XBinary::valueToHexEx(g_pDevice->size()));
+
     XExtractor::DATA extractor_data={};
 
     QList<quint64> listFlags=ui->comboBoxOptions->getCustomFlags();
