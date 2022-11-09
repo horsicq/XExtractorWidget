@@ -40,6 +40,8 @@ public:
     void setData(QIODevice *pDevice,XExtractor::OPTIONS options,bool bAuto);
     void reload();
 
+    DumpProcess::RECORD getDumpProcessRecord(QModelIndex index);
+
 private slots:
     void on_pushButtonScan_clicked();
     void on_pushButtonSave_clicked();

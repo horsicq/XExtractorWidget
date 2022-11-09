@@ -159,6 +159,21 @@ void XExtractorWidget::reload()
     }
 }
 
+DumpProcess::RECORD XExtractorWidget::getDumpProcessRecord(QModelIndex index)
+{
+    DumpProcess::RECORD result={};
+
+    result.nOffset=ui->tableViewResult->model()->data(index,Qt::UserRole+0).toLongLong();
+    result.nSize=ui->tableViewResult->model()->data(index,Qt::UserRole+1).toLongLong();
+    QString sExt=ui->tableViewResult->model()->data(index,Qt::UserRole+2).toString();
+
+    QString sName=QString("%1_%2").arg(XBinary::valueToHexEx(result.nOffset),XBinary::valueToHexEx(result.nSize));
+
+    result.sFileName=XBinary::getResultFileName(g_pDevice,QString("%1.%2").arg(sName,sExt));
+
+    return result;
+}
+
 void XExtractorWidget::registerShortcuts(bool bState)
 {
     Q_UNUSED(bState)
@@ -181,10 +196,29 @@ void XExtractorWidget::on_pushButtonDumpAll_clicked()
 
     if(!sDirectory.isEmpty())
     {
-        // TODO DialogDumpProcess
-//        DialogDumpProcess dd(this,g_pDevice,nOffset,nSize,sDirectory,DumpProcess::DT_OFFSET);
+        qint32 nNumberOfRecords=ui->tableViewResult->model()->rowCount();
 
-//        dd.showDialogDelay(1000);
+        if(nNumberOfRecords)
+        {
+            QList<DumpProcess::RECORD> listRecords;
+
+            for(qint32 i=0;i<nNumberOfRecords;i++)
+            {
+                QModelIndex index=ui->tableViewResult->model()->index(i,0);
+
+                DumpProcess::RECORD record=getDumpProcessRecord(index);
+
+                record.sFileName=sDirectory+QDir::separator()+QFileInfo(record.sFileName).fileName();
+
+                listRecords.append(record);
+            }
+
+            DialogDumpProcess dd(this);
+
+            dd.setData(g_pDevice,listRecords,DumpProcess::DT_OFFSET);
+
+            dd.showDialogDelay(1000);
+        }
     }
 }
 
@@ -211,24 +245,17 @@ void XExtractorWidget::dumpToFile()
     {
         QModelIndex index=ui->tableViewResult->selectionModel()->selectedIndexes().at(0);
 
-        // TODO a function
-        qint64 nOffset=ui->tableViewResult->model()->data(index,Qt::UserRole+0).toLongLong();
-        qint64 nSize=ui->tableViewResult->model()->data(index,Qt::UserRole+1).toLongLong();
-        QString sExt=ui->tableViewResult->model()->data(index,Qt::UserRole+2).toString();
+        DumpProcess::RECORD record=getDumpProcessRecord(index);
 
-        QString sName=QString("%1_%2").arg(XBinary::valueToHexEx(nOffset),XBinary::valueToHexEx(nSize));
+        record.sFileName=QFileDialog::getSaveFileName(this,tr("Save dump"),record.sFileName);
 
-        QString sSaveFileName=XBinary::getResultFileName(g_pDevice,QString("%1.%2").arg(sName,sExt));
-
-
-        QString sFileName=QFileDialog::getSaveFileName(this,tr("Save dump"),sSaveFileName);
-
-        if(!sFileName.isEmpty())
+        if(!record.sFileName.isEmpty())
         {
-            DialogDumpProcess dd(this,g_pDevice,nOffset,nSize,sFileName,DumpProcess::DT_OFFSET);
+            DialogDumpProcess dd(this);
+
+            dd.setData(g_pDevice,record,DumpProcess::DT_OFFSET);
 
             dd.showDialogDelay(1000);
         }
     }
 }
-
