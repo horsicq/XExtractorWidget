@@ -7,8 +7,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -29,32 +29,31 @@ namespace Ui {
 class XExtractorWidget;
 }
 
-class XExtractorWidget : public XShortcutsWidget
-{
+class XExtractorWidget : public XShortcutsWidget {
     Q_OBJECT
 
-public:
-    explicit XExtractorWidget(QWidget *pParent=nullptr);
+   public:
+    explicit XExtractorWidget(QWidget *pParent = nullptr);
     ~XExtractorWidget();
 
-    void setData(QIODevice *pDevice,XExtractor::OPTIONS options,bool bAuto);
+    void setData(QIODevice *pDevice, XExtractor::OPTIONS options, bool bAuto);
     void reload();
 
     DumpProcess::RECORD getDumpProcessRecord(QModelIndex index);
 
-private slots:
+   private slots:
     void on_pushButtonScan_clicked();
     void on_pushButtonSave_clicked();
     void on_pushButtonDumpAll_clicked();
     void on_tableViewResult_customContextMenuRequested(const QPoint &pos);
     void dumpToFile();
 
-protected:
+   protected:
     virtual void registerShortcuts(bool bState);
 
-private:
+   private:
     Ui::XExtractorWidget *ui;
     QIODevice *g_pDevice;
 };
 
-#endif // XEXTRACTORWIDGET_H
+#endif  // XEXTRACTORWIDGET_H

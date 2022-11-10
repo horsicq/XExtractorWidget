@@ -7,8 +7,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -21,26 +21,27 @@
 #include "dialogextractorprocess.h"
 
 DialogExtractorProcess::DialogExtractorProcess(QWidget *pParent)
-    : XDialogProcess(pParent)
-{
-    g_pXExtractor=new XExtractor;
-    g_pThread=new QThread;
+    : XDialogProcess(pParent) {
+    g_pXExtractor = new XExtractor;
+    g_pThread = new QThread;
 
     g_pXExtractor->moveToThread(g_pThread);
 
-    connect(g_pThread,SIGNAL(started()),g_pXExtractor,SLOT(process()));
-    connect(g_pXExtractor,SIGNAL(completed(qint64)),this,SLOT(onCompleted(qint64)));
-    connect(g_pXExtractor,SIGNAL(errorMessage(QString)),this,SLOT(errorMessage(QString)));
+    connect(g_pThread, SIGNAL(started()), g_pXExtractor, SLOT(process()));
+    connect(g_pXExtractor, SIGNAL(completed(qint64)), this,
+            SLOT(onCompleted(qint64)));
+    connect(g_pXExtractor, SIGNAL(errorMessage(QString)), this,
+            SLOT(errorMessage(QString)));
 }
 
-DialogExtractorProcess::DialogExtractorProcess(QWidget *pParent,QIODevice *pDevice,XExtractor::DATA *pData) :
-    DialogExtractorProcess(pParent)
-{
-    setData(pDevice,pData);
+DialogExtractorProcess::DialogExtractorProcess(QWidget *pParent,
+                                               QIODevice *pDevice,
+                                               XExtractor::DATA *pData)
+    : DialogExtractorProcess(pParent) {
+    setData(pDevice, pData);
 }
 
-DialogExtractorProcess::~DialogExtractorProcess()
-{
+DialogExtractorProcess::~DialogExtractorProcess() {
     stop();
     waitForFinished();
 
@@ -51,8 +52,8 @@ DialogExtractorProcess::~DialogExtractorProcess()
     delete g_pXExtractor;
 }
 
-void DialogExtractorProcess::setData(QIODevice *pDevice,XExtractor::DATA *pData)
-{
-    g_pXExtractor->setData(pDevice,pData,getPdStruct());
+void DialogExtractorProcess::setData(QIODevice *pDevice,
+                                     XExtractor::DATA *pData) {
+    g_pXExtractor->setData(pDevice, pData, getPdStruct());
     g_pThread->start();
 }

@@ -7,8 +7,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -21,23 +21,23 @@
 #ifndef DIALOGEXTRACTORPROCESS_H
 #define DIALOGEXTRACTORPROCESS_H
 
+#include "xdialogprocess.h"
 #include "xextractor.h"
 #include "xoptions.h"
-#include "xdialogprocess.h"
 
-class DialogExtractorProcess : public XDialogProcess
-{
+class DialogExtractorProcess : public XDialogProcess {
     Q_OBJECT
-public:
-    explicit DialogExtractorProcess(QWidget *pParent=nullptr);
-    DialogExtractorProcess(QWidget *pParent,QIODevice *pDevice,XExtractor::DATA *pData);
+   public:
+    explicit DialogExtractorProcess(QWidget *pParent = nullptr);
+    DialogExtractorProcess(QWidget *pParent, QIODevice *pDevice,
+                           XExtractor::DATA *pData);
     ~DialogExtractorProcess();
 
-    void setData(QIODevice *pDevice,XExtractor::DATA *pData);
+    void setData(QIODevice *pDevice, XExtractor::DATA *pData);
 
-private:
+   private:
     XExtractor *g_pXExtractor;
     QThread *g_pThread;
 };
 
-#endif // DIALOGEXTRACTORPROCESS_H
+#endif  // DIALOGEXTRACTORPROCESS_H
