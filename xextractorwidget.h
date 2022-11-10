@@ -32,7 +32,7 @@ class XExtractorWidget;
 class XExtractorWidget : public XShortcutsWidget {
     Q_OBJECT
 
-   public:
+public:
     explicit XExtractorWidget(QWidget *pParent = nullptr);
     ~XExtractorWidget();
 
@@ -41,19 +41,24 @@ class XExtractorWidget : public XShortcutsWidget {
 
     DumpProcess::RECORD getDumpProcessRecord(QModelIndex index);
 
-   private slots:
+private slots:
     void on_pushButtonScan_clicked();
     void on_pushButtonSave_clicked();
     void on_pushButtonDumpAll_clicked();
     void on_tableViewResult_customContextMenuRequested(const QPoint &pos);
     void dumpToFile();
+    void _hexSlot();
 
-   protected:
+protected:
     virtual void registerShortcuts(bool bState);
 
-   private:
+signals:
+    void showOffsetHex(qint64 nOffset,qint64 nSize);
+
+private:
     Ui::XExtractorWidget *ui;
     QIODevice *g_pDevice;
+    XExtractor::OPTIONS g_options;
 };
 
 #endif  // XEXTRACTORWIDGET_H

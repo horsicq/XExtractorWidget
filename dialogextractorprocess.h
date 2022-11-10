@@ -27,15 +27,14 @@
 
 class DialogExtractorProcess : public XDialogProcess {
     Q_OBJECT
-   public:
+public:
     explicit DialogExtractorProcess(QWidget *pParent = nullptr);
-    DialogExtractorProcess(QWidget *pParent, QIODevice *pDevice,
-                           XExtractor::DATA *pData);
+    DialogExtractorProcess(QWidget *pParent, QIODevice *pDevice, XExtractor::DATA *pData);
     ~DialogExtractorProcess();
 
     void setData(QIODevice *pDevice, XExtractor::DATA *pData);
 
-   private:
+private:
     XExtractor *g_pXExtractor;
     QThread *g_pThread;
 };

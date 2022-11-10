@@ -30,16 +30,16 @@ class DialogXExtractor;
 class DialogXExtractor : public XShortcutsDialog {
     Q_OBJECT
 
-   public:
+public:
     explicit DialogXExtractor(QWidget *pParent = nullptr);
     ~DialogXExtractor();
 
     void setData(QIODevice *pDevice);
 
-   private slots:
+private slots:
     void on_pushButtonClose_clicked();
 
-   private:
+private:
     Ui::DialogXExtractor *ui;
 };
 

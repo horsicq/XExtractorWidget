@@ -22,11 +22,11 @@
 
 #include "ui_xextractorwidget.h"
 
-XExtractorWidget::XExtractorWidget(QWidget *pParent)
-    : XShortcutsWidget(pParent), ui(new Ui::XExtractorWidget) {
+XExtractorWidget::XExtractorWidget(QWidget *pParent) : XShortcutsWidget(pParent), ui(new Ui::XExtractorWidget) {
     ui->setupUi(this);
 
     g_pDevice = nullptr;
+    g_options = {};
 
     QList<XComboBoxEx::CUSTOM_FLAG> listCustomFlags;
 
@@ -35,19 +35,19 @@ XExtractorWidget::XExtractorWidget(QWidget *pParent)
     qint32 nNumberOfRecords = listFileTypes.count();
 
     for (qint32 i = 0; i < nNumberOfRecords; i++) {
-        XComboBoxEx::_addCustomFlag(
-            &listCustomFlags, listFileTypes.at(i),
-            XBinary::fileTypeIdToString(listFileTypes.at(i)), false);
+        XComboBoxEx::_addCustomFlag(&listCustomFlags, listFileTypes.at(i), XBinary::fileTypeIdToString(listFileTypes.at(i)), false);
     }
 
     ui->comboBoxOptions->addCustomFlags(listCustomFlags);
 }
 
-XExtractorWidget::~XExtractorWidget() { delete ui; }
+XExtractorWidget::~XExtractorWidget() {
+    delete ui;
+}
 
-void XExtractorWidget::setData(QIODevice *pDevice, XExtractor::OPTIONS options,
-                               bool bAuto) {
+void XExtractorWidget::setData(QIODevice *pDevice, XExtractor::OPTIONS options, bool bAuto) {
     g_pDevice = pDevice;
+    g_options = options;
 
     qint32 nNumberOfRecords = options.listFileTypes.count();
 
@@ -70,12 +70,10 @@ void XExtractorWidget::reload() {
     qint32 nNumberOfRecords = listFlags.count();
 
     for (qint32 i = 0; i < nNumberOfRecords; i++) {
-        extractor_data.options.listFileTypes.append(
-            (XBinary::FT)listFlags.at(i));
+        extractor_data.options.listFileTypes.append((XBinary::FT)listFlags.at(i));
     }
 
-    DialogExtractorProcess dep(XOptions::getMainWidget(this), g_pDevice,
-                               &extractor_data);
+    DialogExtractorProcess dep(XOptions::getMainWidget(this), g_pDevice, &extractor_data);
 
     dep.showDialogDelay(1000);
 
@@ -84,8 +82,7 @@ void XExtractorWidget::reload() {
 
         qint32 nNumberOfRecords = extractor_data.listRecords.count();
 
-        QStandardItemModel *pModel =
-            new QStandardItemModel(nNumberOfRecords, 4);
+        QStandardItemModel *pModel = new QStandardItemModel(nNumberOfRecords, 4);
 
         pModel->setHeaderData(0, Qt::Horizontal, tr("Offset"));
         pModel->setHeaderData(1, Qt::Horizontal, tr("Size"));
@@ -96,15 +93,11 @@ void XExtractorWidget::reload() {
             {
                 QStandardItem *pItem = new QStandardItem;
 
-                pItem->setText(XBinary::valueToHexEx(
-                    extractor_data.listRecords.at(i).nOffset));
+                pItem->setText(XBinary::valueToHexEx(extractor_data.listRecords.at(i).nOffset));
 
-                pItem->setData(extractor_data.listRecords.at(i).nOffset,
-                               Qt::UserRole + 0);
-                pItem->setData(extractor_data.listRecords.at(i).nSize,
-                               Qt::UserRole + 1);
-                pItem->setData(extractor_data.listRecords.at(i).sExt,
-                               Qt::UserRole + 2);
+                pItem->setData(extractor_data.listRecords.at(i).nOffset, Qt::UserRole + 0);
+                pItem->setData(extractor_data.listRecords.at(i).nSize, Qt::UserRole + 1);
+                pItem->setData(extractor_data.listRecords.at(i).sExt, Qt::UserRole + 2);
 
                 pItem->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
 
@@ -113,8 +106,7 @@ void XExtractorWidget::reload() {
             {
                 QStandardItem *pItem = new QStandardItem;
 
-                pItem->setText(XBinary::valueToHexEx(
-                    extractor_data.listRecords.at(i).nSize));
+                pItem->setText(XBinary::valueToHexEx(extractor_data.listRecords.at(i).nSize));
 
                 pItem->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
 
@@ -123,8 +115,7 @@ void XExtractorWidget::reload() {
             {
                 QStandardItem *pItem = new QStandardItem;
 
-                pItem->setText(XBinary::fileTypeIdToString(
-                    extractor_data.listRecords.at(i).fileType));
+                pItem->setText(XBinary::fileTypeIdToString(extractor_data.listRecords.at(i).fileType));
 
                 pModel->setItem(i, 2, pItem);
             }
@@ -153,34 +144,23 @@ void XExtractorWidget::reload() {
 
         deleteOldAbstractModel(&pOldModel);
 
-        ui->tableViewResult->horizontalHeader()->setSectionResizeMode(
-            0, QHeaderView::Interactive);
-        ui->tableViewResult->horizontalHeader()->setSectionResizeMode(
-            1, QHeaderView::Interactive);
-        ui->tableViewResult->horizontalHeader()->setSectionResizeMode(
-            2, QHeaderView::Interactive);
-        ui->tableViewResult->horizontalHeader()->setSectionResizeMode(
-            3, QHeaderView::Stretch);
+        ui->tableViewResult->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Interactive);
+        ui->tableViewResult->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Interactive);
+        ui->tableViewResult->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Interactive);
+        ui->tableViewResult->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
     }
 }
 
 DumpProcess::RECORD XExtractorWidget::getDumpProcessRecord(QModelIndex index) {
     DumpProcess::RECORD result = {};
 
-    result.nOffset = ui->tableViewResult->model()
-                         ->data(index, Qt::UserRole + 0)
-                         .toLongLong();
-    result.nSize = ui->tableViewResult->model()
-                       ->data(index, Qt::UserRole + 1)
-                       .toLongLong();
-    QString sExt =
-        ui->tableViewResult->model()->data(index, Qt::UserRole + 2).toString();
+    result.nOffset = ui->tableViewResult->model()->data(index, Qt::UserRole + 0).toLongLong();
+    result.nSize = ui->tableViewResult->model()->data(index, Qt::UserRole + 1).toLongLong();
+    QString sExt = ui->tableViewResult->model()->data(index, Qt::UserRole + 2).toString();
 
-    QString sName = QString("%1_%2").arg(XBinary::valueToHexEx(result.nOffset),
-                                         XBinary::valueToHexEx(result.nSize));
+    QString sName = QString("%1_%2").arg(XBinary::valueToHexEx(result.nOffset), XBinary::valueToHexEx(result.nSize));
 
-    result.sFileName = XBinary::getResultFileName(
-        g_pDevice, QString("%1.%2").arg(sName, sExt));
+    result.sFileName = XBinary::getResultFileName(g_pDevice, QString("%1.%2").arg(sName, sExt));
 
     return result;
 }
@@ -190,18 +170,16 @@ void XExtractorWidget::registerShortcuts(bool bState) {
     // TODO
 }
 
-void XExtractorWidget::on_pushButtonScan_clicked() { reload(); }
+void XExtractorWidget::on_pushButtonScan_clicked() {
+    reload();
+}
 
 void XExtractorWidget::on_pushButtonSave_clicked() {
-    XShortcutsWidget::saveModel(
-        ui->tableViewResult->model(),
-        XBinary::getResultFileName(g_pDevice,
-                                   QString("%1.txt").arg(tr("Extract"))));
+    XShortcutsWidget::saveModel(ui->tableViewResult->model(), XBinary::getResultFileName(g_pDevice, QString("%1.txt").arg(tr("Extract"))));
 }
 
 void XExtractorWidget::on_pushButtonDumpAll_clicked() {
-    QString sDirectory = QFileDialog::getExistingDirectory(
-        this, tr("Dump all"), XBinary::getDeviceDirectory(g_pDevice));
+    QString sDirectory = QFileDialog::getExistingDirectory(this, tr("Dump all"), XBinary::getDeviceDirectory(g_pDevice));
 
     if (!sDirectory.isEmpty()) {
         qint32 nNumberOfRecords = ui->tableViewResult->model()->rowCount();
@@ -214,8 +192,7 @@ void XExtractorWidget::on_pushButtonDumpAll_clicked() {
 
                 DumpProcess::RECORD record = getDumpProcessRecord(index);
 
-                record.sFileName = sDirectory + QDir::separator() +
-                                   QFileInfo(record.sFileName).fileName();
+                record.sFileName = sDirectory + QDir::separator() + QFileInfo(record.sFileName).fileName();
 
                 listRecords.append(record);
             }
@@ -229,15 +206,27 @@ void XExtractorWidget::on_pushButtonDumpAll_clicked() {
     }
 }
 
-void XExtractorWidget::on_tableViewResult_customContextMenuRequested(
-    const QPoint &pos) {
+void XExtractorWidget::on_tableViewResult_customContextMenuRequested(const QPoint &pos) {
     int nRow = ui->tableViewResult->currentIndex().row();
 
     if (nRow != -1) {
         QMenu contextMenu(this);
+
+        QMenu menuFollowIn(tr("Follow in"),this);
+
         QAction actionDump(tr("Dump to file"), this);
         connect(&actionDump, SIGNAL(triggered()), this, SLOT(dumpToFile()));
         contextMenu.addAction(&actionDump);
+
+        QAction actionHex(tr("Hex"),this);
+        //actionHex.setShortcut(getShortcuts()->getShortcut(X_ID_DISASM_FOLLOWIN_HEX));
+        connect(&actionHex,SIGNAL(triggered()),this,SLOT(_hexSlot()));
+
+        if(g_options.bMenu_Hex) {
+            menuFollowIn.addAction(&actionHex);
+
+            contextMenu.addMenu(&menuFollowIn);
+        }
 
         contextMenu.exec(ui->tableViewResult->viewport()->mapToGlobal(pos));
     }
@@ -247,13 +236,11 @@ void XExtractorWidget::dumpToFile() {
     int nRow = ui->tableViewResult->currentIndex().row();
 
     if (nRow != -1) {
-        QModelIndex index =
-            ui->tableViewResult->selectionModel()->selectedIndexes().at(0);
+        QModelIndex index = ui->tableViewResult->selectionModel()->selectedIndexes().at(0);
 
         DumpProcess::RECORD record = getDumpProcessRecord(index);
 
-        record.sFileName = QFileDialog::getSaveFileName(this, tr("Save dump"),
-                                                        record.sFileName);
+        record.sFileName = QFileDialog::getSaveFileName(this, tr("Save dump"), record.sFileName);
 
         if (!record.sFileName.isEmpty()) {
             DialogDumpProcess dd(this);
@@ -261,6 +248,20 @@ void XExtractorWidget::dumpToFile() {
             dd.setData(g_pDevice, record, DumpProcess::DT_OFFSET);
 
             dd.showDialogDelay(1000);
+        }
+    }
+}
+
+void XExtractorWidget::_hexSlot() {
+    if(g_options.bMenu_Hex) {
+        int nRow = ui->tableViewResult->currentIndex().row();
+
+        if (nRow != -1) {
+            QModelIndex index = ui->tableViewResult->selectionModel()->selectedIndexes().at(0);
+
+            DumpProcess::RECORD record = getDumpProcessRecord(index);
+
+            emit showOffsetHex(record.nOffset, record.nSize);
         }
     }
 }
