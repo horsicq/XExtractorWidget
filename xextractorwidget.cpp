@@ -55,6 +55,8 @@ void XExtractorWidget::setData(QIODevice *pDevice, XExtractor::OPTIONS options, 
         ui->comboBoxOptions->setCustomFlag(options.listFileTypes.at(i));
     }
 
+    ui->checkBoxDeepScan->setChecked(options.bDeepScan);
+
     if (bAuto) {
         reload();
     }
@@ -72,6 +74,8 @@ void XExtractorWidget::reload() {
     for (qint32 i = 0; i < nNumberOfRecords; i++) {
         extractor_data.options.listFileTypes.append((XBinary::FT)listFlags.at(i));
     }
+
+    extractor_data.options.bDeepScan = ui->checkBoxDeepScan->isChecked();
 
     DialogExtractorProcess dep(XOptions::getMainWidget(this), g_pDevice, &extractor_data);
 

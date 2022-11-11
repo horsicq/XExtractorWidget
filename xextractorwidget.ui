@@ -40,8 +40,21 @@
      </item>
      <item>
       <widget class="QLabel" name="labelSize">
+       <property name="minimumSize">
+        <size>
+         <width>20</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="text">
         <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="checkBoxDeepScan">
+       <property name="text">
+        <string>Deep scan</string>
        </property>
       </widget>
      </item>
