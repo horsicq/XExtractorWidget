@@ -53,7 +53,7 @@ protected:
     virtual void registerShortcuts(bool bState);
 
 signals:
-    void showOffsetHex(qint64 nOffset,qint64 nSize);
+    void showOffsetHex(qint64 nOffset, qint64 nSize);
 
 private:
     Ui::XExtractorWidget *ui;

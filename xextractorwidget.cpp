@@ -216,17 +216,17 @@ void XExtractorWidget::on_tableViewResult_customContextMenuRequested(const QPoin
     if (nRow != -1) {
         QMenu contextMenu(this);
 
-        QMenu menuFollowIn(tr("Follow in"),this);
+        QMenu menuFollowIn(tr("Follow in"), this);
 
         QAction actionDump(tr("Dump to file"), this);
         connect(&actionDump, SIGNAL(triggered()), this, SLOT(dumpToFile()));
         contextMenu.addAction(&actionDump);
 
-        QAction actionHex(tr("Hex"),this);
-        //actionHex.setShortcut(getShortcuts()->getShortcut(X_ID_DISASM_FOLLOWIN_HEX));
-        connect(&actionHex,SIGNAL(triggered()),this,SLOT(_hexSlot()));
+        QAction actionHex(tr("Hex"), this);
+        // actionHex.setShortcut(getShortcuts()->getShortcut(X_ID_DISASM_FOLLOWIN_HEX));
+        connect(&actionHex, SIGNAL(triggered()), this, SLOT(_hexSlot()));
 
-        if(g_options.bMenu_Hex) {
+        if (g_options.bMenu_Hex) {
             menuFollowIn.addAction(&actionHex);
 
             contextMenu.addMenu(&menuFollowIn);
@@ -257,7 +257,7 @@ void XExtractorWidget::dumpToFile() {
 }
 
 void XExtractorWidget::_hexSlot() {
-    if(g_options.bMenu_Hex) {
+    if (g_options.bMenu_Hex) {
         int nRow = ui->tableViewResult->currentIndex().row();
 
         if (nRow != -1) {
