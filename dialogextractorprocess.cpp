@@ -20,7 +20,8 @@
  */
 #include "dialogextractorprocess.h"
 
-DialogExtractorProcess::DialogExtractorProcess(QWidget *pParent) : XDialogProcess(pParent) {
+DialogExtractorProcess::DialogExtractorProcess(QWidget *pParent) : XDialogProcess(pParent)
+{
     g_pXExtractor = new XExtractor;
     g_pThread = new QThread;
 
@@ -31,11 +32,13 @@ DialogExtractorProcess::DialogExtractorProcess(QWidget *pParent) : XDialogProces
     connect(g_pXExtractor, SIGNAL(errorMessage(QString)), this, SLOT(errorMessage(QString)));
 }
 
-DialogExtractorProcess::DialogExtractorProcess(QWidget *pParent, QIODevice *pDevice, XExtractor::DATA *pData) : DialogExtractorProcess(pParent) {
+DialogExtractorProcess::DialogExtractorProcess(QWidget *pParent, QIODevice *pDevice, XExtractor::DATA *pData) : DialogExtractorProcess(pParent)
+{
     setData(pDevice, pData);
 }
 
-DialogExtractorProcess::~DialogExtractorProcess() {
+DialogExtractorProcess::~DialogExtractorProcess()
+{
     stop();
     waitForFinished();
 
@@ -46,7 +49,8 @@ DialogExtractorProcess::~DialogExtractorProcess() {
     delete g_pXExtractor;
 }
 
-void DialogExtractorProcess::setData(QIODevice *pDevice, XExtractor::DATA *pData) {
+void DialogExtractorProcess::setData(QIODevice *pDevice, XExtractor::DATA *pData)
+{
     g_pXExtractor->setData(pDevice, pData, getPdStruct());
     g_pThread->start();
 }

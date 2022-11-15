@@ -22,7 +22,8 @@
 
 #include "ui_xextractorwidget.h"
 
-XExtractorWidget::XExtractorWidget(QWidget *pParent) : XShortcutsWidget(pParent), ui(new Ui::XExtractorWidget) {
+XExtractorWidget::XExtractorWidget(QWidget *pParent) : XShortcutsWidget(pParent), ui(new Ui::XExtractorWidget)
+{
     ui->setupUi(this);
 
     g_pDevice = nullptr;
@@ -41,11 +42,13 @@ XExtractorWidget::XExtractorWidget(QWidget *pParent) : XShortcutsWidget(pParent)
     ui->comboBoxOptions->addCustomFlags(listCustomFlags);
 }
 
-XExtractorWidget::~XExtractorWidget() {
+XExtractorWidget::~XExtractorWidget()
+{
     delete ui;
 }
 
-void XExtractorWidget::setData(QIODevice *pDevice, XExtractor::OPTIONS options, bool bAuto) {
+void XExtractorWidget::setData(QIODevice *pDevice, XExtractor::OPTIONS options, bool bAuto)
+{
     g_pDevice = pDevice;
     g_options = options;
 
@@ -62,7 +65,8 @@ void XExtractorWidget::setData(QIODevice *pDevice, XExtractor::OPTIONS options, 
     }
 }
 
-void XExtractorWidget::reload() {
+void XExtractorWidget::reload()
+{
     ui->labelSize->setText(XBinary::valueToHexEx(g_pDevice->size()));
 
     XExtractor::DATA extractor_data = {};
@@ -155,7 +159,8 @@ void XExtractorWidget::reload() {
     }
 }
 
-DumpProcess::RECORD XExtractorWidget::getDumpProcessRecord(QModelIndex index) {
+DumpProcess::RECORD XExtractorWidget::getDumpProcessRecord(QModelIndex index)
+{
     DumpProcess::RECORD result = {};
 
     result.nOffset = ui->tableViewResult->model()->data(index, Qt::UserRole + 0).toLongLong();
@@ -169,20 +174,24 @@ DumpProcess::RECORD XExtractorWidget::getDumpProcessRecord(QModelIndex index) {
     return result;
 }
 
-void XExtractorWidget::registerShortcuts(bool bState) {
+void XExtractorWidget::registerShortcuts(bool bState)
+{
     Q_UNUSED(bState)
     // TODO
 }
 
-void XExtractorWidget::on_pushButtonScan_clicked() {
+void XExtractorWidget::on_pushButtonScan_clicked()
+{
     reload();
 }
 
-void XExtractorWidget::on_pushButtonSave_clicked() {
+void XExtractorWidget::on_pushButtonSave_clicked()
+{
     XShortcutsWidget::saveModel(ui->tableViewResult->model(), XBinary::getResultFileName(g_pDevice, QString("%1.txt").arg(tr("Extract"))));
 }
 
-void XExtractorWidget::on_pushButtonDumpAll_clicked() {
+void XExtractorWidget::on_pushButtonDumpAll_clicked()
+{
     QString sDirectory = QFileDialog::getExistingDirectory(this, tr("Dump all"), XBinary::getDeviceDirectory(g_pDevice));
 
     if (!sDirectory.isEmpty()) {
@@ -210,7 +219,8 @@ void XExtractorWidget::on_pushButtonDumpAll_clicked() {
     }
 }
 
-void XExtractorWidget::on_tableViewResult_customContextMenuRequested(const QPoint &pos) {
+void XExtractorWidget::on_tableViewResult_customContextMenuRequested(const QPoint &pos)
+{
     int nRow = ui->tableViewResult->currentIndex().row();
 
     if (nRow != -1) {
@@ -236,7 +246,8 @@ void XExtractorWidget::on_tableViewResult_customContextMenuRequested(const QPoin
     }
 }
 
-void XExtractorWidget::dumpToFile() {
+void XExtractorWidget::dumpToFile()
+{
     int nRow = ui->tableViewResult->currentIndex().row();
 
     if (nRow != -1) {
@@ -256,7 +267,8 @@ void XExtractorWidget::dumpToFile() {
     }
 }
 
-void XExtractorWidget::_hexSlot() {
+void XExtractorWidget::_hexSlot()
+{
     if (g_options.bMenu_Hex) {
         int nRow = ui->tableViewResult->currentIndex().row();
 

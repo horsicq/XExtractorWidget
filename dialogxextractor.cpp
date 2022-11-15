@@ -22,18 +22,22 @@
 
 #include "ui_dialogxextractor.h"
 
-DialogXExtractor::DialogXExtractor(QWidget *pParent) : XShortcutsDialog(pParent), ui(new Ui::DialogXExtractor) {
+DialogXExtractor::DialogXExtractor(QWidget *pParent) : XShortcutsDialog(pParent), ui(new Ui::DialogXExtractor)
+{
     ui->setupUi(this);
 }
 
-DialogXExtractor::~DialogXExtractor() {
+DialogXExtractor::~DialogXExtractor()
+{
     delete ui;
 }
 
-void DialogXExtractor::setData(QIODevice *pDevice) {
+void DialogXExtractor::setData(QIODevice *pDevice)
+{
     ui->widgetExtractor->setData(pDevice, XExtractor::getDefaultOptions(), true);
 }
 
-void DialogXExtractor::on_pushButtonClose_clicked() {
+void DialogXExtractor::on_pushButtonClose_clicked()
+{
     this->close();
 }
