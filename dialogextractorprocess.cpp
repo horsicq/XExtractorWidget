@@ -20,7 +20,8 @@
  */
 #include "dialogextractorprocess.h"
 
-DialogExtractorProcess::DialogExtractorProcess(QWidget *pParent) : XDialogProcess(pParent)
+DialogExtractorProcess::DialogExtractorProcess(QWidget *pParent)
+    : XDialogProcess(pParent)
 {
     g_pXExtractor = new XExtractor;
     g_pThread = new QThread;
@@ -32,7 +33,8 @@ DialogExtractorProcess::DialogExtractorProcess(QWidget *pParent) : XDialogProces
     connect(g_pXExtractor, SIGNAL(errorMessage(QString)), this, SLOT(errorMessage(QString)));
 }
 
-DialogExtractorProcess::DialogExtractorProcess(QWidget *pParent, QIODevice *pDevice, XExtractor::DATA *pData) : DialogExtractorProcess(pParent)
+DialogExtractorProcess::DialogExtractorProcess(QWidget *pParent, QIODevice *pDevice, XExtractor::DATA *pData)
+    : DialogExtractorProcess(pParent)
 {
     setData(pDevice, pData);
 }

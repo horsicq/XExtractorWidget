@@ -22,7 +22,8 @@
 
 #include "ui_xextractorwidget.h"
 
-XExtractorWidget::XExtractorWidget(QWidget *pParent) : XShortcutsWidget(pParent), ui(new Ui::XExtractorWidget)
+XExtractorWidget::XExtractorWidget(QWidget *pParent)
+    : XShortcutsWidget(pParent), ui(new Ui::XExtractorWidget)
 {
     ui->setupUi(this);
 
@@ -39,7 +40,7 @@ XExtractorWidget::XExtractorWidget(QWidget *pParent) : XShortcutsWidget(pParent)
         XComboBoxEx::_addCustomFlag(&listCustomFlags, listFileTypes.at(i), XBinary::fileTypeIdToString(listFileTypes.at(i)), false);
     }
 
-    ui->comboBoxOptions->addCustomFlags(tr("Options"),listCustomFlags);
+    ui->comboBoxOptions->addCustomFlags(tr("Options"), listCustomFlags);
 }
 
 XExtractorWidget::~XExtractorWidget()
