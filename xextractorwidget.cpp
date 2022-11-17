@@ -39,7 +39,7 @@ XExtractorWidget::XExtractorWidget(QWidget *pParent) : XShortcutsWidget(pParent)
         XComboBoxEx::_addCustomFlag(&listCustomFlags, listFileTypes.at(i), XBinary::fileTypeIdToString(listFileTypes.at(i)), false);
     }
 
-    ui->comboBoxOptions->addCustomFlags(listCustomFlags);
+    ui->comboBoxOptions->addCustomFlags(tr("Options"),listCustomFlags);
 }
 
 XExtractorWidget::~XExtractorWidget()
