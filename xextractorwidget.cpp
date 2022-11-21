@@ -22,8 +22,7 @@
 
 #include "ui_xextractorwidget.h"
 
-XExtractorWidget::XExtractorWidget(QWidget *pParent)
-    : XShortcutsWidget(pParent), ui(new Ui::XExtractorWidget)
+XExtractorWidget::XExtractorWidget(QWidget *pParent) : XShortcutsWidget(pParent), ui(new Ui::XExtractorWidget)
 {
     ui->setupUi(this);
 

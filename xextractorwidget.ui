@@ -79,16 +79,16 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButtonSave">
+      <widget class="QPushButton" name="pushButtonDumpAll">
        <property name="text">
-        <string>Save</string>
+        <string>Dump all</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButtonDumpAll">
+      <widget class="QPushButton" name="pushButtonSave">
        <property name="text">
-        <string>Dump all</string>
+        <string>Save</string>
        </property>
       </widget>
      </item>
