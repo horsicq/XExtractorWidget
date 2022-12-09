@@ -187,7 +187,7 @@ void XExtractorWidget::on_pushButtonScan_clicked()
 
 void XExtractorWidget::on_pushButtonSave_clicked()
 {
-    XShortcutsWidget::saveModel(ui->tableViewResult->model(), XBinary::getResultFileName(g_pDevice, QString("%1.txt").arg(tr("Extract"))));
+    XShortcutsWidget::saveTableModel(ui->tableViewResult->model(), XBinary::getResultFileName(g_pDevice, QString("%1.txt").arg(tr("Extract"))));
 }
 
 void XExtractorWidget::on_pushButtonDumpAll_clicked()
