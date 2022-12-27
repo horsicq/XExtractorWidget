@@ -60,6 +60,8 @@ void XExtractorWidget::setData(QIODevice *pDevice, XExtractor::OPTIONS options, 
 
     ui->checkBoxDeepScan->setChecked(options.bDeepScan);
 
+    XFormats::setFileTypeComboBox(options.fileType, g_pDevice, ui->comboBoxType);
+
     if (bAuto) {
         reload();
     }
@@ -81,6 +83,8 @@ void XExtractorWidget::reload()
 
     extractor_data.options.bDeepScan = ui->checkBoxDeepScan->isChecked();
 
+    XBinary::_MEMORY_MAP memoryMap = XFormats::getMemoryMap((XBinary::FT)(ui->comboBoxType->currentData().toULongLong()), g_pDevice);
+
     DialogExtractorProcess dep(XOptions::getMainWidget(this), g_pDevice, &extractor_data);
 
     dep.showDialogDelay(1000);
@@ -93,9 +97,11 @@ void XExtractorWidget::reload()
         QStandardItemModel *pModel = new QStandardItemModel(nNumberOfRecords, 4);
 
         pModel->setHeaderData(0, Qt::Horizontal, tr("Offset"));
-        pModel->setHeaderData(1, Qt::Horizontal, tr("Size"));
-        pModel->setHeaderData(2, Qt::Horizontal, tr("Type"));
-        pModel->setHeaderData(3, Qt::Horizontal, QString(""));
+        pModel->setHeaderData(1, Qt::Horizontal, tr("Address"));
+        pModel->setHeaderData(2, Qt::Horizontal, "");
+        pModel->setHeaderData(3, Qt::Horizontal, tr("Size"));
+        pModel->setHeaderData(4, Qt::Horizontal, tr("Type"));
+        pModel->setHeaderData(5, Qt::Horizontal, "");
 
         for (qint32 i = 0; i < nNumberOfRecords; i++) {
             {
@@ -107,32 +113,44 @@ void XExtractorWidget::reload()
                 pItem->setData(extractor_data.listRecords.at(i).nSize, Qt::UserRole + 1);
                 pItem->setData(extractor_data.listRecords.at(i).sExt, Qt::UserRole + 2);
 
-                pItem->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
-
                 pModel->setItem(i, 0, pItem);
             }
             {
                 QStandardItem *pItem = new QStandardItem;
 
-                pItem->setText(XBinary::valueToHexEx(extractor_data.listRecords.at(i).nSize));
+                XADDR nAddress = XBinary::offsetToAddress(&memoryMap, extractor_data.listRecords.at(i).nOffset);
 
-                pItem->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
+                pItem->setText(XBinary::valueToHexEx(nAddress));
 
                 pModel->setItem(i, 1, pItem);
             }
             {
                 QStandardItem *pItem = new QStandardItem;
 
-                pItem->setText(XBinary::fileTypeIdToString(extractor_data.listRecords.at(i).fileType));
+                pItem->setText(XBinary::getMemoryRecordByOffset(&memoryMap, extractor_data.listRecords.at(i).nOffset).sName);
 
                 pModel->setItem(i, 2, pItem);
             }
             {
                 QStandardItem *pItem = new QStandardItem;
 
-                pItem->setText(extractor_data.listRecords.at(i).sString);
+                pItem->setText(XBinary::valueToHexEx(extractor_data.listRecords.at(i).nSize));
 
                 pModel->setItem(i, 3, pItem);
+            }
+            {
+                QStandardItem *pItem = new QStandardItem;
+
+                pItem->setText(XBinary::fileTypeIdToString(extractor_data.listRecords.at(i).fileType));
+
+                pModel->setItem(i, 4, pItem);
+            }
+            {
+                QStandardItem *pItem = new QStandardItem;
+
+                pItem->setText(extractor_data.listRecords.at(i).sString);
+
+                pModel->setItem(i, 5, pItem);
             }
             //            {
             //                QPushButton *result=new QPushButton(this); // TODO
@@ -148,14 +166,21 @@ void XExtractorWidget::reload()
             //            }
         }
 
+        XOptions::setModelTextAlignment(pModel, 0, Qt::AlignRight | Qt::AlignVCenter);
+        XOptions::setModelTextAlignment(pModel, 1, Qt::AlignRight | Qt::AlignVCenter);
+        XOptions::setModelTextAlignment(pModel, 2, Qt::AlignLeft | Qt::AlignVCenter);
+        XOptions::setModelTextAlignment(pModel, 3, Qt::AlignRight | Qt::AlignVCenter);
+        XOptions::setModelTextAlignment(pModel, 4, Qt::AlignLeft | Qt::AlignVCenter);
+        XOptions::setModelTextAlignment(pModel, 5, Qt::AlignLeft | Qt::AlignVCenter);
+
         ui->tableViewResult->setModel(pModel);
 
         deleteOldAbstractModel(&pOldModel);
 
-        ui->tableViewResult->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Interactive);
-        ui->tableViewResult->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Interactive);
-        ui->tableViewResult->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Interactive);
-        ui->tableViewResult->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
+//        ui->tableViewResult->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Interactive);
+//        ui->tableViewResult->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Interactive);
+//        ui->tableViewResult->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Interactive);
+        ui->tableViewResult->horizontalHeader()->setSectionResizeMode(5, QHeaderView::Stretch);
     }
 }
 
@@ -280,4 +305,11 @@ void XExtractorWidget::_hexSlot()
             emit showOffsetHex(record.nOffset, record.nSize);
         }
     }
+}
+
+void XExtractorWidget::on_comboBoxType_currentIndexChanged(int nIndex)
+{
+    Q_UNUSED(nIndex)
+
+    reload();
 }

@@ -48,6 +48,7 @@ private slots:
     void on_tableViewResult_customContextMenuRequested(const QPoint &pos);
     void dumpToFile();
     void _hexSlot();
+    void on_comboBoxType_currentIndexChanged(int nIndex);
 
 protected:
     virtual void registerShortcuts(bool bState);
