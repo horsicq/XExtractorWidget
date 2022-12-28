@@ -267,6 +267,8 @@ void XExtractorWidget::on_tableViewResult_customContextMenuRequested(const QPoin
             contextMenu.addMenu(&menuFollowIn);
         }
 
+        contextMenu.addMenu(getShortcuts()->getRowCopyMenu(this, ui->tableViewResult));
+
         contextMenu.exec(ui->tableViewResult->viewport()->mapToGlobal(pos));
     }
 }
