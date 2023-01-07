@@ -120,7 +120,9 @@ void XExtractorWidget::reload()
 
                 XADDR nAddress = XBinary::offsetToAddress(&memoryMap, extractor_data.listRecords.at(i).nOffset);
 
-                pItem->setText(XBinary::valueToHexEx(nAddress));
+                if (nAddress != (XADDR)-1) {
+                    pItem->setText(XBinary::valueToHexEx(nAddress));
+                }
 
                 pModel->setItem(i, 1, pItem);
             }
