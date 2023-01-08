@@ -179,9 +179,9 @@ void XExtractorWidget::reload()
 
         deleteOldAbstractModel(&pOldModel);
 
-//        ui->tableViewResult->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Interactive);
-//        ui->tableViewResult->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Interactive);
-//        ui->tableViewResult->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Interactive);
+        //        ui->tableViewResult->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Interactive);
+        //        ui->tableViewResult->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Interactive);
+        //        ui->tableViewResult->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Interactive);
         ui->tableViewResult->horizontalHeader()->setSectionResizeMode(5, QHeaderView::Stretch);
     }
 }
