@@ -94,7 +94,7 @@ void XExtractorWidget::reload()
 
         qint32 nNumberOfRecords = extractor_data.listRecords.count();
 
-        QStandardItemModel *pModel = new QStandardItemModel(nNumberOfRecords, 4);
+        QStandardItemModel *pModel = new QStandardItemModel(nNumberOfRecords, 6);
 
         pModel->setHeaderData(0, Qt::Horizontal, tr("Offset"));
         pModel->setHeaderData(1, Qt::Horizontal, tr("Address"));
