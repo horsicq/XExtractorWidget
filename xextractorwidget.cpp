@@ -87,7 +87,7 @@ void XExtractorWidget::reload()
 
     DialogExtractorProcess dep(XOptions::getMainWidget(this), g_pDevice, &extractor_data);
 
-    dep.showDialogDelay(1000);
+    dep.showDialogDelay();
 
     if (dep.isSuccess()) {
         QAbstractItemModel *pOldModel = ui->tableViewResult->model();
@@ -241,7 +241,7 @@ void XExtractorWidget::on_pushButtonDumpAll_clicked()
 
             dd.setData(g_pDevice, listRecords, DumpProcess::DT_OFFSET);
 
-            dd.showDialogDelay(1000);
+            dd.showDialogDelay();
         }
     }
 }
@@ -291,7 +291,7 @@ void XExtractorWidget::dumpToFile()
 
             dd.setData(g_pDevice, record, DumpProcess::DT_OFFSET);
 
-            dd.showDialogDelay(1000);
+            dd.showDialogDelay();
         }
     }
 }
