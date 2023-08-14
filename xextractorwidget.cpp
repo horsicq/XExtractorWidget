@@ -248,7 +248,7 @@ void XExtractorWidget::on_pushButtonDumpAll_clicked()
 
 void XExtractorWidget::on_tableViewResult_customContextMenuRequested(const QPoint &pos)
 {
-    int nRow = ui->tableViewResult->currentIndex().row();
+    qint32 nRow = ui->tableViewResult->currentIndex().row();
 
     if (nRow != -1) {
         QMenu contextMenu(this);
