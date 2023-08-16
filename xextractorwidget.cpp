@@ -277,7 +277,7 @@ void XExtractorWidget::on_tableViewResult_customContextMenuRequested(const QPoin
 
 void XExtractorWidget::dumpToFile()
 {
-    int nRow = ui->tableViewResult->currentIndex().row();
+    qint32 nRow = ui->tableViewResult->currentIndex().row();
 
     if (nRow != -1) {
         QModelIndex index = ui->tableViewResult->selectionModel()->selectedIndexes().at(0);
