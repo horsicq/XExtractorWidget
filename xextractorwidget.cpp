@@ -299,7 +299,7 @@ void XExtractorWidget::dumpToFile()
 void XExtractorWidget::_hexSlot()
 {
     if (g_options.bMenu_Hex) {
-        int nRow = ui->tableViewResult->currentIndex().row();
+        qint32 nRow = ui->tableViewResult->currentIndex().row();
 
         if (nRow != -1) {
             QModelIndex index = ui->tableViewResult->selectionModel()->selectedIndexes().at(0);
