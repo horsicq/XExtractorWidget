@@ -36,7 +36,7 @@ public:
     explicit XExtractorWidget(QWidget *pParent = nullptr);
     ~XExtractorWidget();
 
-    void setData(QIODevice *pDevice, XExtractor::OPTIONS options, bool bAuto);
+    void setData(QIODevice *pDevice, const XExtractor::OPTIONS &options, bool bAuto);
     void reload();
     DumpProcess::RECORD getDumpProcessRecord(QModelIndex index);
 
