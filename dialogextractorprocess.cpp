@@ -29,7 +29,7 @@ DialogExtractorProcess::DialogExtractorProcess(QWidget *pParent) : XDialogProces
 
     connect(g_pThread, SIGNAL(started()), g_pXExtractor, SLOT(process()));
     connect(g_pXExtractor, SIGNAL(completed(qint64)), this, SLOT(onCompleted(qint64)));
-    connect(g_pXExtractor, SIGNAL(errorMessage(QString)), this, SLOT(errorMessage(QString)));
+    connect(g_pXExtractor, SIGNAL(errorMessage(QString)), this, SLOT(errorMessageSlot(QString)));
 }
 
 DialogExtractorProcess::DialogExtractorProcess(QWidget *pParent, QIODevice *pDevice, XExtractor::DATA *pData) : DialogExtractorProcess(pParent)
