@@ -48,6 +48,7 @@ private slots:
     void dumpToFile();
     void _hexSlot();
     void on_comboBoxType_currentIndexChanged(int nIndex);
+    void on_comboBoxMapMode_currentIndexChanged(int nIndex);
 
 protected:
     virtual void registerShortcuts(bool bState);
