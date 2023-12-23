@@ -84,7 +84,8 @@ void XExtractorWidget::reload()
 
     extractor_data.options.bDeepScan = ui->checkBoxDeepScan->isChecked();
 
-    XBinary::_MEMORY_MAP memoryMap = XFormats::getMemoryMap((XBinary::FT)(ui->comboBoxType->currentData().toULongLong()), (XBinary::MAPMODE)(ui->comboBoxMapMode->currentData().toULongLong()), g_pDevice);
+    XBinary::_MEMORY_MAP memoryMap = XFormats::getMemoryMap((XBinary::FT)(ui->comboBoxType->currentData().toULongLong()),
+                                                            (XBinary::MAPMODE)(ui->comboBoxMapMode->currentData().toULongLong()), g_pDevice);
 
     DialogExtractorProcess dep(XOptions::getMainWidget(this), g_pDevice, &extractor_data);
 
@@ -325,4 +326,3 @@ void XExtractorWidget::on_comboBoxMapMode_currentIndexChanged(int nIndex)
 
     reload();
 }
-
