@@ -23,7 +23,6 @@
 
 #include "xdialogprocess.h"
 #include "xextractor.h"
-#include "xoptions.h"
 
 class DialogExtractorProcess : public XDialogProcess {
     Q_OBJECT
