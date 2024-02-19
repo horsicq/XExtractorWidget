@@ -239,9 +239,11 @@ void XExtractorWidget::on_pushButtonDumpAll_clicked()
                 listRecords.append(record);
             }
 
+            QString sJsonFileName = sDirectory + QDir::separator() + XBinary::getDeviceFileBaseName(g_pDevice) + ".patch.json";
+
             DialogDumpProcess dd(this);
 
-            dd.setData(g_pDevice, listRecords, DumpProcess::DT_OFFSET);
+            dd.setData(g_pDevice, listRecords, DumpProcess::DT_DUMP_OFFSET, sJsonFileName);
 
             dd.showDialogDelay();
         }
@@ -291,7 +293,7 @@ void XExtractorWidget::dumpToFile()
         if (!record.sFileName.isEmpty()) {
             DialogDumpProcess dd(this);
 
-            dd.setData(g_pDevice, record, DumpProcess::DT_OFFSET);
+            dd.setData(g_pDevice, record, DumpProcess::DT_DUMP_OFFSET);
 
             dd.showDialogDelay();
         }
