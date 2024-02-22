@@ -243,7 +243,7 @@ void XExtractorWidget::on_pushButtonDumpAll_clicked()
 
             DialogDumpProcess dd(this);
 
-            dd.setData(g_pDevice, listRecords, DumpProcess::DT_DUMP_OFFSET, sJsonFileName);
+            dd.setData(g_pDevice, listRecords, DumpProcess::DT_DUMP_DEVICE_OFFSET, sJsonFileName);
 
             dd.showDialogDelay();
         }
@@ -293,7 +293,7 @@ void XExtractorWidget::dumpToFile()
         if (!record.sFileName.isEmpty()) {
             DialogDumpProcess dd(this);
 
-            dd.setData(g_pDevice, record, DumpProcess::DT_DUMP_OFFSET);
+            dd.setData(g_pDevice, record, DumpProcess::DT_DUMP_DEVICE_OFFSET);
 
             dd.showDialogDelay();
         }
