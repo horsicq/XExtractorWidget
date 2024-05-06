@@ -59,6 +59,7 @@ void XExtractorWidget::setData(QIODevice *pDevice, const XExtractor::OPTIONS &op
     }
 
     ui->checkBoxDeepScan->setChecked(options.bDeepScan);
+    ui->checkBoxHeuristicScan->setChecked(options.bHeuristicScan);
 
     XFormats::setFileTypeComboBox(options.fileType, g_pDevice, ui->comboBoxType);
     XFormats::setMapModeComboBox(options.fileType, g_pDevice, false, -1, ui->comboBoxMapMode);
@@ -83,6 +84,7 @@ void XExtractorWidget::reload()
     }
 
     extractor_data.options.bDeepScan = ui->checkBoxDeepScan->isChecked();
+    extractor_data.options.bHeuristicScan = ui->checkBoxHeuristicScan->isChecked();
 
     XBinary::_MEMORY_MAP memoryMap = XFormats::getMemoryMap((XBinary::FT)(ui->comboBoxType->currentData().toULongLong()),
                                                             (XBinary::MAPMODE)(ui->comboBoxMapMode->currentData().toULongLong()), g_pDevice);

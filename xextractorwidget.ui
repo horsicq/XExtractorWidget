@@ -123,6 +123,13 @@
       </widget>
      </item>
      <item>
+      <widget class="QCheckBox" name="checkBoxHeuristicScan">
+       <property name="text">
+        <string>Heuristic scan</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QLabel" name="labelSize">
        <property name="minimumSize">
         <size>
