@@ -62,7 +62,7 @@ void XExtractorWidget::setData(QIODevice *pDevice, const XExtractor::OPTIONS &op
     ui->checkBoxHeuristicScan->setChecked(options.bHeuristicScan);
 
     XFormats::setFileTypeComboBox(options.fileType, g_pDevice, ui->comboBoxType);
-    XFormats::setMapModeComboBox(options.fileType, g_pDevice, false, -1, ui->comboBoxMapMode);
+    XFormats::getMapModesList(options.fileType, ui->comboBoxMapMode);
 
     if (bAuto) {
         reload();
@@ -320,6 +320,9 @@ void XExtractorWidget::_hexSlot()
 void XExtractorWidget::on_comboBoxType_currentIndexChanged(int nIndex)
 {
     Q_UNUSED(nIndex)
+
+    XBinary::FT fileType = (XBinary::FT)(ui->comboBoxType->currentData().toInt());
+    XFormats::getMapModesList(fileType, ui->comboBoxMapMode);
 
     reload();
 }
