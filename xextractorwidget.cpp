@@ -205,6 +205,10 @@ DumpProcess::RECORD XExtractorWidget::getDumpProcessRecord(QModelIndex index)
     return result;
 }
 
+void XExtractorWidget::adjustView()
+{
+}
+
 void XExtractorWidget::registerShortcuts(bool bState)
 {
     Q_UNUSED(bState)
