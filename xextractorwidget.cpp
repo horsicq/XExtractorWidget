@@ -90,6 +90,7 @@ void XExtractorWidget::reload()
                                                             (XBinary::MAPMODE)(ui->comboBoxMapMode->currentData().toULongLong()), g_pDevice);
 
     DialogExtractorProcess dep(XOptions::getMainWidget(this), g_pDevice, &extractor_data);
+    dep.setGlobal(getShortcuts(), getGlobalOptions());
 
     dep.showDialogDelay();
 
@@ -248,7 +249,7 @@ void XExtractorWidget::on_pushButtonDumpAll_clicked()
             QString sJsonFileName = sDirectory + QDir::separator() + XBinary::getDeviceFileBaseName(g_pDevice) + ".patch.json";
 
             DialogDumpProcess dd(this);
-
+            dd.setGlobal(getShortcuts(), getGlobalOptions());
             dd.setData(g_pDevice, listRecords, DumpProcess::DT_DUMP_DEVICE_OFFSET, sJsonFileName);
 
             dd.showDialogDelay();
@@ -298,7 +299,7 @@ void XExtractorWidget::dumpToFile()
 
         if (!record.sFileName.isEmpty()) {
             DialogDumpProcess dd(this);
-
+            dd.setGlobal(getShortcuts(), getGlobalOptions());
             dd.setData(g_pDevice, record, DumpProcess::DT_DUMP_DEVICE_OFFSET);
 
             dd.showDialogDelay();
