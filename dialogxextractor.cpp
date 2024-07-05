@@ -22,7 +22,7 @@
 
 #include "ui_dialogxextractor.h"
 
-DialogXExtractor::DialogXExtractor(QWidget *pParent) : XShortcutsDialog(pParent), ui(new Ui::DialogXExtractor)
+DialogXExtractor::DialogXExtractor(QWidget *pParent) : XShortcutsDialog(pParent, true), ui(new Ui::DialogXExtractor)
 {
     ui->setupUi(this);
 }
