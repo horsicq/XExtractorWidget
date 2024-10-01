@@ -26,9 +26,9 @@ XExtractorWidget::XExtractorWidget(QWidget *pParent) : XShortcutsWidget(pParent)
 {
     ui->setupUi(this);
 
-    XOptions::addToolButtonIcon(ui->toolButtonScan, ":/icons/Refresh.16.16.png");
-    XOptions::addToolButtonIcon(ui->toolButtonSave, ":/icons/Save.16.16.png");
-    XOptions::addToolButtonIcon(ui->toolButtonDumpAll, ":/icons/Download.16.16.png");
+    XOptions::adjustToolButton(ui->toolButtonScan, XOptions::ICONTYPE_SCAN);
+    XOptions::adjustToolButton(ui->toolButtonSave, XOptions::ICONTYPE_SAVE);
+    XOptions::adjustToolButton(ui->toolButtonDumpAll, XOptions::ICONTYPE_DUMP);
 
     ui->comboBoxType->setToolTip(tr("Type"));
     ui->comboBoxMapMode->setToolTip(tr("Mode"));
