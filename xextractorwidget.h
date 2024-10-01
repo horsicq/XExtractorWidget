@@ -42,9 +42,9 @@ public:
     virtual void adjustView();
 
 private slots:
-    void on_pushButtonScan_clicked();
-    void on_pushButtonSave_clicked();
-    void on_pushButtonDumpAll_clicked();
+    void on_toolButtonScan_clicked();
+    void on_toolButtonSave_clicked();
+    void on_toolButtonDumpAll_clicked();
     void on_tableViewResult_customContextMenuRequested(const QPoint &pos);
     void dumpToFile();
     void _hexSlot();

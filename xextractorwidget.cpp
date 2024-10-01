@@ -26,6 +26,20 @@ XExtractorWidget::XExtractorWidget(QWidget *pParent) : XShortcutsWidget(pParent)
 {
     ui->setupUi(this);
 
+    XOptions::addToolButtonIcon(ui->toolButtonScan, ":/icons/Refresh.16.16.png");
+    XOptions::addToolButtonIcon(ui->toolButtonSave, ":/icons/Save.16.16.png");
+    XOptions::addToolButtonIcon(ui->toolButtonDumpAll, ":/icons/Download.16.16.png");
+
+    ui->comboBoxType->setToolTip(tr("Type"));
+    ui->comboBoxMapMode->setToolTip(tr("Mode"));
+    ui->comboBoxOptions->setToolTip(tr("Options"));
+    ui->checkBoxDeepScan->setToolTip(tr("Deep scan"));
+    ui->checkBoxHeuristicScan->setToolTip(tr("Heuristic scan"));
+    ui->toolButtonScan->setToolTip(tr("Scan"));
+    ui->toolButtonSave->setToolTip(tr("Save"));
+    ui->toolButtonDumpAll->setToolTip(tr("Dump all"));
+    ui->labelSize->setToolTip(tr("Size"));
+
     g_pDevice = nullptr;
     g_options = {};
 
@@ -216,17 +230,17 @@ void XExtractorWidget::registerShortcuts(bool bState)
     // TODO
 }
 
-void XExtractorWidget::on_pushButtonScan_clicked()
+void XExtractorWidget::on_toolButtonScan_clicked()
 {
     reload();
 }
 
-void XExtractorWidget::on_pushButtonSave_clicked()
+void XExtractorWidget::on_toolButtonSave_clicked()
 {
     XShortcutsWidget::saveTableModel(ui->tableViewResult->model(), XBinary::getResultFileName(g_pDevice, QString("%1.txt").arg(tr("Extract"))));
 }
 
-void XExtractorWidget::on_pushButtonDumpAll_clicked()
+void XExtractorWidget::on_toolButtonDumpAll_clicked()
 {
     QString sDirectory = QFileDialog::getExistingDirectory(this, tr("Dump all"), XBinary::getDeviceDirectory(g_pDevice));
 
