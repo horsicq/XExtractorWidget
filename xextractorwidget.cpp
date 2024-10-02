@@ -28,7 +28,7 @@ XExtractorWidget::XExtractorWidget(QWidget *pParent) : XShortcutsWidget(pParent)
 
     XOptions::adjustToolButton(ui->toolButtonScan, XOptions::ICONTYPE_SCAN);
     XOptions::adjustToolButton(ui->toolButtonSave, XOptions::ICONTYPE_SAVE);
-    XOptions::adjustToolButton(ui->toolButtonDumpAll, XOptions::ICONTYPE_DUMP);
+    XOptions::adjustToolButton(ui->toolButtonDumpAll, XOptions::ICONTYPE_DUMPTOFILE);
 
     ui->comboBoxType->setToolTip(tr("Type"));
     ui->comboBoxMapMode->setToolTip(tr("Mode"));
@@ -278,20 +278,15 @@ void XExtractorWidget::on_tableViewResult_customContextMenuRequested(const QPoin
     if (nRow != -1) {
         QMenu contextMenu(this);
 
-        QMenu menuFollowIn(tr("Follow in"), this);
+        QMenu menuFollowIn(this);
+        QAction actionDump(this);
+        QAction actionHex(this);
 
-        QAction actionDump(tr("Dump to file"), this);
-        connect(&actionDump, SIGNAL(triggered()), this, SLOT(dumpToFile()));
-        contextMenu.addAction(&actionDump);
-
-        QAction actionHex(tr("Hex"), this);
-        // actionHex.setShortcut(getShortcuts()->getShortcut(X_ID_DISASM_FOLLOWIN_HEX));
-        connect(&actionHex, SIGNAL(triggered()), this, SLOT(_hexSlot()));
+        getShortcuts()->adjustAction(&contextMenu, &actionDump, X_ID_TABLE_DUMPTOFILE, this, SLOT(dumpToFile()));
 
         if (g_options.bMenu_Hex) {
-            menuFollowIn.addAction(&actionHex);
-
-            contextMenu.addMenu(&menuFollowIn);
+            getShortcuts()->adjustAction(&menuFollowIn, &actionHex, X_ID_TABLE_HEX, this, SLOT(_hexSlot()));
+            getShortcuts()->adjustMenu(&contextMenu, &menuFollowIn, XShortcuts::GROUPID_FOLLOWIN);
         }
 
         contextMenu.addMenu(getShortcuts()->getRowCopyMenu(this, ui->tableViewResult));
