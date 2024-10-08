@@ -109,8 +109,6 @@ void XExtractorWidget::reload()
     dep.showDialogDelay();
 
     if (dep.isSuccess()) {
-        QAbstractItemModel *pOldModel = ui->tableViewResult->model();
-
         qint32 nNumberOfRecords = extractor_data.listRecords.count();
 
         QStandardItemModel *pModel = new QStandardItemModel(nNumberOfRecords, 6);
@@ -194,9 +192,7 @@ void XExtractorWidget::reload()
         XOptions::setModelTextAlignment(pModel, 4, Qt::AlignLeft | Qt::AlignVCenter);
         XOptions::setModelTextAlignment(pModel, 5, Qt::AlignLeft | Qt::AlignVCenter);
 
-        ui->tableViewResult->setModel(pModel);
-
-        deleteOldAbstractModel(&pOldModel);
+        ui->tableViewResult->setCustomModel(pModel, true);
 
         //        ui->tableViewResult->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Interactive);
         //        ui->tableViewResult->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Interactive);
@@ -237,7 +233,7 @@ void XExtractorWidget::on_toolButtonScan_clicked()
 
 void XExtractorWidget::on_toolButtonSave_clicked()
 {
-    XShortcutsWidget::saveTableModel(ui->tableViewResult->model(), XBinary::getResultFileName(g_pDevice, QString("%1.txt").arg(tr("Extract"))));
+    XShortcutsWidget::saveTableModel(ui->tableViewResult->getProxyModel(), XBinary::getResultFileName(g_pDevice, QString("%1.txt").arg(tr("Extract"))));
 }
 
 void XExtractorWidget::on_toolButtonDumpAll_clicked()
