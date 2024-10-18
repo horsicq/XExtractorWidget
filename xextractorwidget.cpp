@@ -278,10 +278,10 @@ void XExtractorWidget::on_tableViewResult_customContextMenuRequested(const QPoin
         QAction actionDump(this);
         QAction actionHex(this);
 
-        getShortcuts()->adjustAction(&contextMenu, &actionDump, X_ID_TABLE_DUMPTOFILE, this, SLOT(dumpToFile()));
+        getShortcuts()->adjustAction(&contextMenu, &actionDump, X_ID_SELECTION_DUMPTOFILE, this, SLOT(dumpToFile()));
 
         if (g_options.bMenu_Hex) {
-            getShortcuts()->adjustAction(&menuFollowIn, &actionHex, X_ID_TABLE_HEX, this, SLOT(_hexSlot()));
+            getShortcuts()->adjustAction(&menuFollowIn, &actionHex, X_ID_SELECTION_HEX, this, SLOT(_hexSlot()));
             getShortcuts()->adjustMenu(&contextMenu, &menuFollowIn, XShortcuts::GROUPID_FOLLOWIN);
         }
 
