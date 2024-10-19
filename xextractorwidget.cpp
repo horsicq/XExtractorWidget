@@ -272,7 +272,7 @@ void XExtractorWidget::on_tableViewResult_customContextMenuRequested(const QPoin
     qint32 nRow = ui->tableViewResult->currentIndex().row();
 
     if (nRow != -1) {
-        QMenu contextMenu(this); // TODO
+        QMenu contextMenu(this);  // TODO
 
         QMenu menuFollowIn(this);
         QAction actionDump(this);
