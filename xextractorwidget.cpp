@@ -272,24 +272,22 @@ void XExtractorWidget::on_tableViewResult_customContextMenuRequested(const QPoin
     qint32 nRow = ui->tableViewResult->currentIndex().row();
 
     if (nRow != -1) {
-        QMenu contextMenu(this);  // TODO
+        QMenu contextMenu(this);
 
-        QMenu menuFollowIn(this);
-        QAction actionDump(this);
-        QAction actionHex(this);
+        QList<XShortcuts::MENUITEM> listMenuItems;
 
-        getShortcuts()->adjustAction(&contextMenu, &actionDump, X_ID_SELECTION_DUMPTOFILE, this, SLOT(dumpToFile()));
+        getShortcuts()->_addMenuItem(&listMenuItems, X_ID_TABLE_SELECTION_DUMPTOFILE, this, SLOT(dumpSection()), XShortcuts::GROUPID_SELECTION);
+        getShortcuts()->_addMenuItem_CopyRow(&listMenuItems, ui->tableViewResult);
 
         if (g_options.bMenu_Hex) {
-            getShortcuts()->adjustAction(&menuFollowIn, &actionHex, X_ID_SELECTION_HEX, this, SLOT(_hexSlot()));
-            getShortcuts()->adjustMenu(&contextMenu, &menuFollowIn, XShortcuts::GROUPID_FOLLOWIN);
+            getShortcuts()->_addMenuItem(&listMenuItems, X_ID_TABLE_FOLLOWIN_HEX, this, SLOT(_hexSlot()), XShortcuts::GROUPID_FOLLOWIN);
         }
 
-        QMenu menuCopy(this);
-
-        getShortcuts()->adjustRowCopyMenu(&contextMenu, &menuCopy, ui->tableViewResult);
+        QList<QObject *> listObjects = getShortcuts()->adjustContextMenu(&contextMenu, &listMenuItems);
 
         contextMenu.exec(ui->tableViewResult->viewport()->mapToGlobal(pos));
+
+        XOptions::deleteQObjectList(&listObjects);
     }
 }
 
