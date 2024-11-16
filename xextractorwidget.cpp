@@ -276,7 +276,7 @@ void XExtractorWidget::on_tableViewResult_customContextMenuRequested(const QPoin
 
         QList<XShortcuts::MENUITEM> listMenuItems;
 
-        getShortcuts()->_addMenuItem(&listMenuItems, X_ID_TABLE_SELECTION_DUMPTOFILE, this, SLOT(dumpSection()), XShortcuts::GROUPID_NONE);
+        getShortcuts()->_addMenuItem(&listMenuItems, X_ID_TABLE_SELECTION_DUMPTOFILE, this, SLOT(dumpToFile()), XShortcuts::GROUPID_NONE);
         getShortcuts()->_addMenuItem_CopyRow(&listMenuItems, ui->tableViewResult);
 
         if (g_options.bMenu_Hex) {
