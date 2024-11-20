@@ -50,6 +50,9 @@ private slots:
     void _hexSlot();
     void on_comboBoxType_currentIndexChanged(int nIndex);
     void on_comboBoxMapMode_currentIndexChanged(int nIndex);
+    void viewSelection();
+    void on_tableViewResult_clicked(const QModelIndex &index);
+    void on_tableViewSelection(const QItemSelection &itemSelected, const QItemSelection &itemDeselected);
 
 protected:
     virtual void registerShortcuts(bool bState);

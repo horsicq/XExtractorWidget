@@ -198,6 +198,9 @@ void XExtractorWidget::reload()
         //        ui->tableViewResult->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Interactive);
         //        ui->tableViewResult->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Interactive);
         ui->tableViewResult->horizontalHeader()->setSectionResizeMode(5, QHeaderView::Stretch);
+
+        connect(ui->tableViewResult->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this,
+                SLOT(on_tableViewSelection(QItemSelection, QItemSelection)));
     }
 }
 
@@ -343,3 +346,38 @@ void XExtractorWidget::on_comboBoxMapMode_currentIndexChanged(int nIndex)
 
     reload();
 }
+
+void XExtractorWidget::viewSelection()
+{
+    QItemSelectionModel *pSelectionModel = ui->tableViewResult->selectionModel();
+
+    if (pSelectionModel) {
+        QModelIndexList listIndexes = pSelectionModel->selectedIndexes();
+
+        if (listIndexes.count()) {
+            QModelIndex indexNumber = listIndexes.at(0);
+
+            DumpProcess::RECORD record = getDumpProcessRecord(indexNumber);
+
+            if (record.nOffset != -1) {
+                emit currentLocationChanged(record.nOffset, XBinary::LT_OFFSET,record.nSize);
+            }
+        }
+    }
+}
+
+void XExtractorWidget::on_tableViewResult_clicked(const QModelIndex &index)
+{
+    Q_UNUSED(index)
+
+    viewSelection();
+}
+
+void XExtractorWidget::on_tableViewSelection(const QItemSelection &itemSelected, const QItemSelection &itemDeselected)
+{
+    Q_UNUSED(itemSelected)
+    Q_UNUSED(itemDeselected)
+
+    viewSelection();
+}
+
