@@ -40,6 +40,7 @@ public:
     void reload();
     DumpProcess::RECORD getDumpProcessRecord(QModelIndex index);
     virtual void adjustView();
+    virtual void reloadData(bool bSaveSelection);
 
 private slots:
     void on_toolButtonScan_clicked();

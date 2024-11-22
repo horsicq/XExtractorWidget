@@ -223,6 +223,13 @@ void XExtractorWidget::adjustView()
 {
 }
 
+void XExtractorWidget::reloadData(bool bSaveSelection)
+{
+    Q_UNUSED(bSaveSelection)
+
+    reload();
+}
+
 void XExtractorWidget::registerShortcuts(bool bState)
 {
     Q_UNUSED(bState)
