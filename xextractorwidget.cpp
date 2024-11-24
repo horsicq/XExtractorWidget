@@ -367,7 +367,7 @@ void XExtractorWidget::viewSelection()
             DumpProcess::RECORD record = getDumpProcessRecord(indexNumber);
 
             if (record.nOffset != -1) {
-                emit currentLocationChanged(record.nOffset, XBinary::LT_OFFSET,record.nSize);
+                emit currentLocationChanged(record.nOffset, XBinary::LT_OFFSET, record.nSize);
             }
         }
     }
@@ -387,4 +387,3 @@ void XExtractorWidget::on_tableViewSelection(const QItemSelection &itemSelected,
 
     viewSelection();
 }
-
