@@ -35,6 +35,7 @@ public:
     ~DialogXExtractor();
 
     void setData(QIODevice *pDevice);
+    virtual void adjustView();
 
 private slots:
     void on_pushButtonClose_clicked();

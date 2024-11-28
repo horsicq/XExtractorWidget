@@ -37,6 +37,11 @@ void DialogXExtractor::setData(QIODevice *pDevice)
     ui->widgetExtractor->setData(pDevice, XExtractor::getDefaultOptions(), true);
 }
 
+void DialogXExtractor::adjustView()
+{
+    ui->widgetExtractor->adjustView();
+}
+
 void DialogXExtractor::on_pushButtonClose_clicked()
 {
     this->close();
