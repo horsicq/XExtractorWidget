@@ -8,8 +8,11 @@ if (NOT DEFINED XDIALOGPROCESS_SOURCES)
     include(${CMAKE_CURRENT_LIST_DIR}/../FormatDialogs/xdialogprocess.cmake)
     set(XEXTRACTORWIDGET_SOURCES ${XEXTRACTORWIDGET_SOURCES} ${XDIALOGPROCESS_SOURCES})
 endif()
+if (NOT DEFINED XDIALOGPROCESS_SOURCES)
+    include(${CMAKE_CURRENT_LIST_DIR}/../FormatDialogs/dialogdump.cmake)
+    set(XEXTRACTORWIDGET_SOURCES ${DIALOGDUMP_SOURCES} ${DIALOGDUMP_SOURCES})
+endif()
 
-include(${CMAKE_CURRENT_LIST_DIR}/../FormatDialogs/dialogdump.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/../Controls/xcomboboxex.cmake)
 
 set(XEXTRACTORWIDGET_SOURCES
