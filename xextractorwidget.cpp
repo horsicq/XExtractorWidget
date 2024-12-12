@@ -334,7 +334,7 @@ void XExtractorWidget::_hexSlot()
 
             DumpProcess::RECORD record = getDumpProcessRecord(index);
 
-            emit showOffsetHex(record.nOffset, record.nSize);
+            emit followLocation(record.nOffset, XBinary::LT_OFFSET, record.nSize, XOptions::WIDGETTYPE_HEX);
         }
     }
 }

@@ -58,9 +58,6 @@ private slots:
 protected:
     virtual void registerShortcuts(bool bState);
 
-signals:
-    void showOffsetHex(qint64 nOffset, qint64 nSize);
-
 private:
     Ui::XExtractorWidget *ui;
     QIODevice *g_pDevice;
