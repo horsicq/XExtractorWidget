@@ -222,7 +222,7 @@ DumpProcess::RECORD XExtractorWidget::getDumpProcessRecord(QModelIndex index)
 void XExtractorWidget::adjustView()
 {
     getGlobalOptions()->adjustWidget(this, XOptions::ID_VIEW_FONT_CONTROLS);
-    getGlobalOptions()->adjustWidget(ui->tableViewResult, XOptions::ID_VIEW_FONT_TABLEVIEWS);
+    getGlobalOptions()->adjustTableView(ui->tableViewResult, XOptions::ID_VIEW_FONT_TABLEVIEWS);
 }
 
 void XExtractorWidget::reloadData(bool bSaveSelection)
