@@ -50,7 +50,7 @@ XExtractorWidget::XExtractorWidget(QWidget *pParent) : XShortcutsWidget(pParent)
     qint32 nNumberOfRecords = listFileTypes.count();
 
     for (qint32 i = 0; i < nNumberOfRecords; i++) {
-        XComboBoxEx::_addCustomFlag(&listCustomFlags, listFileTypes.at(i), XBinary::fileTypeIdToExts(listFileTypes.at(i)), false);
+        XComboBoxEx::_addCustomFlag(&listCustomFlags, listFileTypes.at(i), XFormats::getFileFormatExtsString(listFileTypes.at(i)), false);
     }
 
     ui->comboBoxOptions->addCustomFlags(tr("Options"), listCustomFlags);
