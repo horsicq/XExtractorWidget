@@ -4,12 +4,10 @@ INCLUDEPATH += $$PWD
 DEPENDPATH += $$PWD
 
 HEADERS += \
-    $$PWD/dialogextractorprocess.h \
     $$PWD/dialogxextractor.h \
     $$PWD/xextractorwidget.h
 
 SOURCES += \
-    $$PWD/dialogextractorprocess.cpp \
     $$PWD/dialogxextractor.cpp \
     $$PWD/xextractorwidget.cpp
 

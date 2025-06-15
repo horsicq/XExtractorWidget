@@ -25,6 +25,4 @@ set(XEXTRACTORWIDGET_SOURCES
     ${CMAKE_CURRENT_LIST_DIR}/dialogxextractor.cpp
     ${CMAKE_CURRENT_LIST_DIR}/dialogxextractor.h
     ${CMAKE_CURRENT_LIST_DIR}/dialogxextractor.ui
-    ${CMAKE_CURRENT_LIST_DIR}/dialogextractorprocess.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/dialogextractorprocess.h
 )

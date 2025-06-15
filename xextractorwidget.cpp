@@ -103,9 +103,11 @@ void XExtractorWidget::reload()
     XBinary::_MEMORY_MAP memoryMap = XFormats::getMemoryMap((XBinary::FT)(ui->comboBoxType->currentData().toULongLong()),
                                                             (XBinary::MAPMODE)(ui->comboBoxMapMode->currentData().toULongLong()), g_pDevice);
 
-    DialogExtractorProcess dep(XOptions::getMainWidget(this), g_pDevice, &extractor_data);
+    XExtractor xextractor;
+    XDialogProcess dep(XOptions::getMainWidget(this), &xextractor);
     dep.setGlobal(getShortcuts(), getGlobalOptions());
-
+    xextractor.setData(g_pDevice, &extractor_data, dep.getPdStruct());
+    dep.start();
     dep.showDialogDelay();
 
     if (dep.isSuccess()) {

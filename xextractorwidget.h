@@ -22,7 +22,8 @@
 #define XEXTRACTORWIDGET_H
 
 #include "dialogdumpprocess.h"
-#include "dialogextractorprocess.h"
+#include "xdialogprocess.h"
+#include "xextractor.h"
 #include "xshortcutswidget.h"
 
 namespace Ui {
