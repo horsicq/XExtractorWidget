@@ -21,7 +21,7 @@
 #ifndef XEXTRACTORWIDGET_H
 #define XEXTRACTORWIDGET_H
 
-#include "dialogdumpprocess.h"
+#include "dumpprocess.h"
 #include "xdialogprocess.h"
 #include "xextractor.h"
 #include "xshortcutswidget.h"

@@ -272,10 +272,11 @@ void XExtractorWidget::on_toolButtonDumpAll_clicked()
 
             QString sJsonFileName = sDirectory + QDir::separator() + XBinary::getDeviceFileBaseName(g_pDevice) + ".patch.json";
 
-            DialogDumpProcess dd(this);
+            DumpProcess dumpProcess;
+            XDialogProcess dd(this, &dumpProcess);
             dd.setGlobal(getShortcuts(), getGlobalOptions());
-            dd.setData(g_pDevice, listRecords, DumpProcess::DT_DUMP_DEVICE_OFFSET, sJsonFileName);
-
+            dumpProcess.setData(g_pDevice, listRecords, DumpProcess::DT_DUMP_DEVICE_OFFSET, sJsonFileName, dd.getPdStruct());
+            dd.start();
             dd.showDialogDelay();
         }
     }
@@ -317,10 +318,11 @@ void XExtractorWidget::dumpToFile()
         record.sFileName = QFileDialog::getSaveFileName(this, tr("Save dump"), record.sFileName);
 
         if (!record.sFileName.isEmpty()) {
-            DialogDumpProcess dd(this);
+            DumpProcess dumpProcess;
+            XDialogProcess dd(this, &dumpProcess);
             dd.setGlobal(getShortcuts(), getGlobalOptions());
-            dd.setData(g_pDevice, record, DumpProcess::DT_DUMP_DEVICE_OFFSET);
-
+            dumpProcess.setData(g_pDevice, record, DumpProcess::DT_DUMP_DEVICE_OFFSET, dd.getPdStruct());
+            dd.start();
             dd.showDialogDelay();
         }
     }
