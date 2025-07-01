@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>625</width>
-    <height>368</height>
+    <width>720</width>
+    <height>556</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Extract</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
+  <layout class="QVBoxLayout" name="verticalLayout">
    <property name="leftMargin">
     <number>0</number>
    </property>
@@ -60,14 +60,14 @@
         <string/>
        </property>
        <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
        </property>
       </widget>
      </item>
      <item>
       <spacer name="horizontalSpacer_2">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
@@ -89,7 +89,7 @@
         <string>Dump all</string>
        </property>
        <property name="toolButtonStyle">
-        <enum>Qt::ToolButtonTextBesideIcon</enum>
+        <enum>Qt::ToolButtonStyle::ToolButtonTextBesideIcon</enum>
        </property>
       </widget>
      </item>
@@ -105,7 +105,7 @@
         <string>Save</string>
        </property>
        <property name="toolButtonStyle">
-        <enum>Qt::ToolButtonTextBesideIcon</enum>
+        <enum>Qt::ToolButtonStyle::ToolButtonTextBesideIcon</enum>
        </property>
       </widget>
      </item>
@@ -121,7 +121,7 @@
         <string>Scan</string>
        </property>
        <property name="toolButtonStyle">
-        <enum>Qt::ToolButtonTextBesideIcon</enum>
+        <enum>Qt::ToolButtonStyle::ToolButtonTextBesideIcon</enum>
        </property>
       </widget>
      </item>
@@ -148,7 +148,7 @@
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
@@ -175,40 +175,53 @@
     </layout>
    </item>
    <item>
-    <widget class="XTableView" name="tableViewResult">
-     <property name="contextMenuPolicy">
-      <enum>Qt::CustomContextMenu</enum>
+    <widget class="QSplitter" name="splitter">
+     <property name="orientation">
+      <enum>Qt::Orientation::Vertical</enum>
      </property>
-     <property name="editTriggers">
-      <set>QAbstractItemView::NoEditTriggers</set>
-     </property>
-     <property name="selectionMode">
-      <enum>QAbstractItemView::SingleSelection</enum>
-     </property>
-     <property name="selectionBehavior">
-      <enum>QAbstractItemView::SelectRows</enum>
-     </property>
-     <property name="sortingEnabled">
-      <bool>true</bool>
-     </property>
-     <attribute name="horizontalHeaderStretchLastSection">
-      <bool>true</bool>
-     </attribute>
-     <attribute name="verticalHeaderVisible">
-      <bool>false</bool>
-     </attribute>
-     <attribute name="verticalHeaderMinimumSectionSize">
-      <number>20</number>
-     </attribute>
-     <attribute name="verticalHeaderDefaultSectionSize">
-      <number>20</number>
-     </attribute>
-     <attribute name="verticalHeaderShowSortIndicator" stdset="0">
-      <bool>false</bool>
-     </attribute>
-     <attribute name="verticalHeaderStretchLastSection">
-      <bool>false</bool>
-     </attribute>
+     <widget class="XTableView" name="tableViewResult">
+      <property name="contextMenuPolicy">
+       <enum>Qt::ContextMenuPolicy::CustomContextMenu</enum>
+      </property>
+      <property name="editTriggers">
+       <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
+      </property>
+      <property name="selectionMode">
+       <enum>QAbstractItemView::SelectionMode::SingleSelection</enum>
+      </property>
+      <property name="selectionBehavior">
+       <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
+      </property>
+      <property name="sortingEnabled">
+       <bool>true</bool>
+      </property>
+      <attribute name="horizontalHeaderStretchLastSection">
+       <bool>true</bool>
+      </attribute>
+      <attribute name="verticalHeaderVisible">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="verticalHeaderMinimumSectionSize">
+       <number>20</number>
+      </attribute>
+      <attribute name="verticalHeaderDefaultSectionSize">
+       <number>20</number>
+      </attribute>
+      <attribute name="verticalHeaderShowSortIndicator" stdset="0">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="verticalHeaderStretchLastSection">
+       <bool>false</bool>
+      </attribute>
+     </widget>
+     <widget class="XHexView" name="widgetHex" native="true">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+     </widget>
     </widget>
    </item>
   </layout>
@@ -223,6 +236,12 @@
    <class>XTableView</class>
    <extends>QTableView</extends>
    <header>xtableview.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XHexView</class>
+   <extends>QWidget</extends>
+   <header>xhexview.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>
