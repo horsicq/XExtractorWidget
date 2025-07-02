@@ -42,6 +42,7 @@ public:
     DumpProcess::RECORD getDumpProcessRecord(QModelIndex index);
     virtual void adjustView();
     virtual void reloadData(bool bSaveSelection);
+    void setGlobal(XShortcuts *pShortcuts, XOptions *pXOptions);
 
 private slots:
     void on_toolButtonScan_clicked();

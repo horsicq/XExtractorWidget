@@ -75,8 +75,12 @@ void XExtractorWidget::setData(QIODevice *pDevice, const XExtractor::OPTIONS &op
     ui->checkBoxDeepScan->setChecked(options.bDeepScan);
     ui->checkBoxHeuristicScan->setChecked(options.bHeuristicScan);
 
-    XFormats::setFileTypeComboBox(options.fileType, g_pDevice, ui->comboBoxType);
-    XFormats::getMapModesList(options.fileType, ui->comboBoxMapMode);
+    XBinary::FT fileType = XFormats::setFileTypeComboBox(options.fileType, g_pDevice, ui->comboBoxType);
+    XFormats::getMapModesList(fileType, ui->comboBoxMapMode);
+
+    XHexView::OPTIONS hex_options = {};
+
+    ui->widgetHex->setData(pDevice, hex_options, true);
 
     if (bAuto) {
         reload();
@@ -225,6 +229,8 @@ void XExtractorWidget::adjustView()
 {
     getGlobalOptions()->adjustWidget(this, XOptions::ID_VIEW_FONT_CONTROLS);
     getGlobalOptions()->adjustTableView(ui->tableViewResult, XOptions::ID_VIEW_FONT_TABLEVIEWS);
+
+    ui->widgetHex->adjustView();
 }
 
 void XExtractorWidget::reloadData(bool bSaveSelection)
@@ -234,10 +240,17 @@ void XExtractorWidget::reloadData(bool bSaveSelection)
     reload();
 }
 
+void XExtractorWidget::setGlobal(XShortcuts *pShortcuts, XOptions *pXOptions)
+{
+    XShortcutsWidget::setGlobal(pShortcuts, pXOptions);
+
+    ui->widgetHex->setGlobal(pShortcuts, pXOptions);
+}
+
 void XExtractorWidget::registerShortcuts(bool bState)
 {
-    Q_UNUSED(bState)
-    // TODO
+    XShortcutsWidget::registerShortcuts(bState);
+    ui->widgetHex->registerShortcuts(bState);
 }
 
 void XExtractorWidget::on_toolButtonScan_clicked()
