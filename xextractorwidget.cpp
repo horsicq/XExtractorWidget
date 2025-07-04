@@ -34,7 +34,7 @@ XExtractorWidget::XExtractorWidget(QWidget *pParent) : XShortcutsWidget(pParent)
     ui->comboBoxMapMode->setToolTip(tr("Mode"));
     ui->comboBoxOptions->setToolTip(tr("Options"));
     ui->checkBoxDeepScan->setToolTip(tr("Deep scan"));
-    ui->checkBoxHeuristicScan->setToolTip(tr("Heuristic scan"));
+    // ui->checkBoxHeuristicScan->setToolTip(tr("Heuristic scan"));
     ui->toolButtonScan->setToolTip(tr("Scan"));
     ui->toolButtonSave->setToolTip(tr("Save"));
     ui->toolButtonDumpAll->setToolTip(tr("Dump all"));
@@ -73,7 +73,7 @@ void XExtractorWidget::setData(QIODevice *pDevice, const XExtractor::OPTIONS &op
     }
 
     ui->checkBoxDeepScan->setChecked(options.bDeepScan);
-    ui->checkBoxHeuristicScan->setChecked(options.bHeuristicScan);
+    // ui->checkBoxHeuristicScan->setChecked(options.bHeuristicScan);
 
     XBinary::FT fileType = XFormats::setFileTypeComboBox(options.fileType, g_pDevice, ui->comboBoxType);
     XFormats::getMapModesList(fileType, ui->comboBoxMapMode);
@@ -102,7 +102,8 @@ void XExtractorWidget::reload()
     }
 
     extractor_data.options.bDeepScan = ui->checkBoxDeepScan->isChecked();
-    extractor_data.options.bHeuristicScan = ui->checkBoxHeuristicScan->isChecked();
+    extractor_data.options.bAnalyze = true;
+    // extractor_data.options.bHeuristicScan = ui->checkBoxHeuristicScan->isChecked();
 
     XBinary::_MEMORY_MAP memoryMap = XFormats::getMemoryMap((XBinary::FT)(ui->comboBoxType->currentData().toULongLong()),
                                                             (XBinary::MAPMODE)(ui->comboBoxMapMode->currentData().toULongLong()), g_pDevice);

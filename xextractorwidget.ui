@@ -165,13 +165,6 @@
        </property>
       </widget>
      </item>
-     <item>
-      <widget class="QCheckBox" name="checkBoxHeuristicScan">
-       <property name="text">
-        <string>Heuristic scan</string>
-       </property>
-      </widget>
-     </item>
     </layout>
    </item>
    <item>
@@ -228,6 +221,12 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>XHexView</class>
+   <extends>QWidget</extends>
+   <header>xhexview.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
    <class>XComboBoxEx</class>
    <extends>QComboBox</extends>
    <header>xcomboboxex.h</header>
@@ -236,12 +235,6 @@
    <class>XTableView</class>
    <extends>QTableView</extends>
    <header>xtableview.h</header>
-  </customwidget>
-  <customwidget>
-   <class>XHexView</class>
-   <extends>QWidget</extends>
-   <header>xhexview.h</header>
-   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>
