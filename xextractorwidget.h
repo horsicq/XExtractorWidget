@@ -24,6 +24,7 @@
 #include "dumpprocess.h"
 #include "xdialogprocess.h"
 #include "xextractor.h"
+#include "xmodel_extractor.h"
 #include "xshortcutswidget.h"
 
 namespace Ui {
@@ -64,6 +65,7 @@ private:
     Ui::XExtractorWidget *ui;
     QIODevice *g_pDevice;
     XExtractor::OPTIONS g_options;
+    XExtractor::DATA g_extractor_data;
 };
 
 #endif  // XEXTRACTORWIDGET_H
