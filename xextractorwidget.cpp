@@ -118,82 +118,7 @@ void XExtractorWidget::reload()
     if (dep.isSuccess()) {
         XModel_Extractor *pModel = new XModel_Extractor(&g_extractor_data, this);
 
-
-        // QStandardItemModel *pModel = new QStandardItemModel(nNumberOfRecords, 6);
-
-        // pModel->setHeaderData(0, Qt::Horizontal, tr("Offset"));
-        // pModel->setHeaderData(1, Qt::Horizontal, tr("Address"));
-        // pModel->setHeaderData(2, Qt::Horizontal, "");
-        // pModel->setHeaderData(3, Qt::Horizontal, tr("Size"));
-        // pModel->setHeaderData(4, Qt::Horizontal, tr("Type"));
-        // pModel->setHeaderData(5, Qt::Horizontal, "");
-
-        // for (qint32 i = 0; i < nNumberOfRecords; i++) {
-        //     {
-        //         QStandardItem *pItem = new QStandardItem;
-
-        //         pItem->setText(XBinary::valueToHexEx(extractor_data.listRecords.at(i).nOffset));
-
-        //         pItem->setData(extractor_data.listRecords.at(i).nOffset, Qt::UserRole + 0);
-        //         pItem->setData(extractor_data.listRecords.at(i).nSize, Qt::UserRole + 1);
-        //         pItem->setData(extractor_data.listRecords.at(i).sExt, Qt::UserRole + 2);
-
-        //         pModel->setItem(i, 0, pItem);
-        //     }
-        //     {
-        //         QStandardItem *pItem = new QStandardItem;
-
-        //         XADDR nAddress = XBinary::offsetToAddress(&extractor_data.memoryMap, extractor_data.listRecords.at(i).nOffset);
-
-        //         if (nAddress != (XADDR)-1) {
-        //             pItem->setText(XBinary::valueToHexEx(nAddress));
-        //         }
-
-        //         pModel->setItem(i, 1, pItem);
-        //     }
-        //     {
-        //         QStandardItem *pItem = new QStandardItem;
-
-        //         pItem->setText(XBinary::getMemoryRecordByOffset(&extractor_data.memoryMap, extractor_data.listRecords.at(i).nOffset).sName);
-
-        //         pModel->setItem(i, 2, pItem);
-        //     }
-        //     {
-        //         QStandardItem *pItem = new QStandardItem;
-
-        //         pItem->setText(XBinary::valueToHexEx(extractor_data.listRecords.at(i).nSize));
-
-        //         pModel->setItem(i, 3, pItem);
-        //     }
-        //     {
-        //         QStandardItem *pItem = new QStandardItem;
-
-        //         pItem->setText(XBinary::fileTypeIdToString(extractor_data.listRecords.at(i).fileType));
-
-        //         pModel->setItem(i, 4, pItem);
-        //     }
-        //     {
-        //         QStandardItem *pItem = new QStandardItem;
-
-        //         pItem->setText(extractor_data.listRecords.at(i).sString);
-
-        //         pModel->setItem(i, 5, pItem);
-        //     }
-        // }
-
-        // XOptions::setModelTextAlignment(pModel, 0, Qt::AlignRight | Qt::AlignVCenter);
-        // XOptions::setModelTextAlignment(pModel, 1, Qt::AlignRight | Qt::AlignVCenter);
-        // XOptions::setModelTextAlignment(pModel, 2, Qt::AlignLeft | Qt::AlignVCenter);
-        // XOptions::setModelTextAlignment(pModel, 3, Qt::AlignRight | Qt::AlignVCenter);
-        // XOptions::setModelTextAlignment(pModel, 4, Qt::AlignLeft | Qt::AlignVCenter);
-        // XOptions::setModelTextAlignment(pModel, 5, Qt::AlignLeft | Qt::AlignVCenter);
-
         ui->tableViewResult->setCustomModel(pModel, true);
-
-        //        ui->tableViewResult->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Interactive);
-        //        ui->tableViewResult->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Interactive);
-        //        ui->tableViewResult->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Interactive);
-        // ui->tableViewResult->horizontalHeader()->setSectionResizeMode(5, QHeaderView::Stretch);
 
         connect(ui->tableViewResult->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this,
                 SLOT(on_tableViewSelection(QItemSelection, QItemSelection)));
@@ -204,9 +129,9 @@ DumpProcess::RECORD XExtractorWidget::getDumpProcessRecord(QModelIndex index)
 {
     DumpProcess::RECORD result = {};
 
-    result.nOffset = ui->tableViewResult->model()->data(index, Qt::UserRole + 0).toLongLong();
-    result.nSize = ui->tableViewResult->model()->data(index, Qt::UserRole + 1).toLongLong();
-    QString sExt = ui->tableViewResult->model()->data(index, Qt::UserRole + 2).toString();
+    result.nOffset = ui->tableViewResult->model()->data(index, Qt::UserRole + XModel::USERROLE_OFFSET).toLongLong();
+    result.nSize = ui->tableViewResult->model()->data(index, Qt::UserRole + XModel::USERROLE_SIZE).toLongLong();
+    QString sExt = ui->tableViewResult->model()->data(index, Qt::UserRole + XModel::USERROLE_STRING2).toString();
 
     QString sName = QString("%1_%2").arg(XBinary::valueToHexEx(result.nOffset), XBinary::valueToHexEx(result.nSize));
 
@@ -373,10 +298,16 @@ void XExtractorWidget::viewSelection()
         if (listIndexes.count()) {
             QModelIndex indexNumber = listIndexes.at(0);
 
+#ifdef QT_DEBUG
+            qDebug("%d", indexNumber.row());
+#endif
+
             DumpProcess::RECORD record = getDumpProcessRecord(indexNumber);
 
             if (record.nOffset != -1) {
-                emit currentLocationChanged(record.nOffset, XBinary::LT_OFFSET, record.nSize);
+                emit currentLocationChanged(record.nOffset, XBinary::LT_OFFSET, record.nSize); // TODO mb remove, use signals from widgetHex
+
+                ui->widgetHex->setLocationOffset(record.nOffset, XBinary::LT_OFFSET, record.nSize);
             }
         }
     }
