@@ -26,6 +26,7 @@
 #include "xextractor.h"
 #include "xmodel_extractor.h"
 #include "xshortcutswidget.h"
+#include "xinfodb.h"
 
 namespace Ui {
 class XExtractorWidget;
@@ -38,7 +39,7 @@ public:
     explicit XExtractorWidget(QWidget *pParent = nullptr);
     ~XExtractorWidget();
 
-    void setData(QIODevice *pDevice, const XExtractor::OPTIONS &options, bool bAuto);
+    void setData(QIODevice *pDevice, XInfoDB *pXInfoDB, const XExtractor::OPTIONS &options, bool bAuto);
     void reload();
     DumpProcess::RECORD getDumpProcessRecord(QModelIndex index);
     virtual void adjustView();
@@ -64,6 +65,7 @@ protected:
 private:
     Ui::XExtractorWidget *ui;
     QIODevice *g_pDevice;
+    XInfoDB *g_pXInfoDB;
     XExtractor::OPTIONS g_options;
     XExtractor::DATA g_extractor_data;
 };

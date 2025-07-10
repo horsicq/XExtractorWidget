@@ -32,9 +32,9 @@ DialogXExtractor::~DialogXExtractor()
     delete ui;
 }
 
-void DialogXExtractor::setData(QIODevice *pDevice)
+void DialogXExtractor::setData(QIODevice *pDevice, XInfoDB *pXInfoDB)
 {
-    ui->widgetExtractor->setData(pDevice, XExtractor::getDefaultOptions(), true);
+    ui->widgetExtractor->setData(pDevice, pXInfoDB, XExtractor::getDefaultOptions(), true);
 }
 
 void DialogXExtractor::adjustView()

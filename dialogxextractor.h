@@ -22,6 +22,7 @@
 #define DIALOGXEXTRACTOR_H
 
 #include "xshortcutsdialog.h"
+#include "xextractorwidget.h"
 
 namespace Ui {
 class DialogXExtractor;
@@ -34,7 +35,7 @@ public:
     explicit DialogXExtractor(QWidget *pParent = nullptr);
     ~DialogXExtractor();
 
-    void setData(QIODevice *pDevice);
+    void setData(QIODevice *pDevice, XInfoDB *pXInfoDB);
     virtual void adjustView();
 
 private slots:

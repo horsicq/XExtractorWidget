@@ -41,6 +41,7 @@ XExtractorWidget::XExtractorWidget(QWidget *pParent) : XShortcutsWidget(pParent)
     ui->labelSize->setToolTip(tr("Size"));
 
     g_pDevice = nullptr;
+    g_pXInfoDB = nullptr;
     g_options = {};
 
     QList<XComboBoxEx::CUSTOM_FLAG> listCustomFlags;
@@ -61,9 +62,10 @@ XExtractorWidget::~XExtractorWidget()
     delete ui;
 }
 
-void XExtractorWidget::setData(QIODevice *pDevice, const XExtractor::OPTIONS &options, bool bAuto)
+void XExtractorWidget::setData(QIODevice *pDevice, XInfoDB *pXInfoDB, const XExtractor::OPTIONS &options, bool bAuto)
 {
     g_pDevice = pDevice;
+    g_pXInfoDB = pXInfoDB;
     g_options = options;
 
     qint32 nNumberOfRecords = options.listFileTypes.count();
@@ -81,6 +83,7 @@ void XExtractorWidget::setData(QIODevice *pDevice, const XExtractor::OPTIONS &op
     XHexView::OPTIONS hex_options = {};
 
     ui->widgetHex->setData(pDevice, hex_options, true);
+    ui->widgetHex->setXInfoDB(g_pXInfoDB);
 
     if (bAuto) {
         reload();
@@ -122,6 +125,28 @@ void XExtractorWidget::reload()
 
         connect(ui->tableViewResult->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this,
                 SLOT(on_tableViewSelection(QItemSelection, QItemSelection)));
+
+        if (g_pXInfoDB) {
+            qint32 nNumberOfRecords = g_extractor_data.listRecords.count();
+
+            for (qint32 i = 0; i < nNumberOfRecords; i++) {
+
+                QString sComment = "TST";
+                XInfoDB::BOOKMARKRECORD record = {};
+                record.sUUID = XBinary::generateUUID();
+                record.sColorBackground = QColor(Qt::yellow).name();
+                record.nLocation = g_extractor_data.listRecords.at(i).nOffset;
+                record.locationType = XBinary::LT_OFFSET;
+                record.nSize = g_extractor_data.listRecords.at(i).nSize;
+                record.sComment = sComment;
+
+                g_pXInfoDB->_addBookmarkRecord(record);
+            }
+
+            if (nNumberOfRecords) {
+                g_pXInfoDB->reloadView();
+            }
+        }
     }
 }
 
@@ -298,15 +323,12 @@ void XExtractorWidget::viewSelection()
         if (listIndexes.count()) {
             QModelIndex indexNumber = listIndexes.at(0);
 
-#ifdef QT_DEBUG
-            qDebug("%d", indexNumber.row());
-#endif
-
             DumpProcess::RECORD record = getDumpProcessRecord(indexNumber);
 
             if (record.nOffset != -1) {
                 emit currentLocationChanged(record.nOffset, XBinary::LT_OFFSET, record.nSize); // TODO mb remove, use signals from widgetHex
 
+                ui->widgetHex->goToLocation(record.nOffset, XBinary::LT_OFFSET);
                 ui->widgetHex->setLocationOffset(record.nOffset, XBinary::LT_OFFSET, record.nSize);
             }
         }
