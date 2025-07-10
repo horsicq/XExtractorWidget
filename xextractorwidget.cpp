@@ -39,6 +39,7 @@ XExtractorWidget::XExtractorWidget(QWidget *pParent) : XShortcutsWidget(pParent)
     ui->toolButtonSave->setToolTip(tr("Save"));
     ui->toolButtonDumpAll->setToolTip(tr("Dump all"));
     ui->labelSize->setToolTip(tr("Size"));
+    ui->comboBoxExtractorMode->setToolTip(tr("Mode"));
 
     g_pDevice = nullptr;
     g_pXInfoDB = nullptr;
@@ -80,6 +81,21 @@ void XExtractorWidget::setData(QIODevice *pDevice, XInfoDB *pXInfoDB, const XExt
     XBinary::FT fileType = XFormats::setFileTypeComboBox(options.fileType, g_pDevice, ui->comboBoxType);
     XFormats::getMapModesList(fileType, ui->comboBoxMapMode);
 
+    {
+        bool bBlock = ui->comboBoxExtractorMode->blockSignals(true);
+
+        ui->comboBoxExtractorMode->clear();
+        ui->comboBoxExtractorMode->addItem(XExtractor::extractorModeToString(XExtractor::EMODE_HEURISTIC), XExtractor::EMODE_HEURISTIC);
+
+        if (XExtractor::isFormatModeAvailable(fileType)) {
+            ui->comboBoxExtractorMode->addItem(XExtractor::extractorModeToString(XExtractor::EMODE_FORMAT), XExtractor::EMODE_FORMAT);
+        }
+
+        ui->comboBoxExtractorMode->addItem(XExtractor::extractorModeToString(XExtractor::EMODE_RAW), XExtractor::EMODE_RAW);
+
+        ui->comboBoxExtractorMode->blockSignals(bBlock);
+    }
+
     XHexView::OPTIONS hex_options = {};
 
     ui->widgetHex->setData(pDevice, hex_options, true);
@@ -106,6 +122,7 @@ void XExtractorWidget::reload()
 
     g_extractor_data.options.bDeepScan = ui->checkBoxDeepScan->isChecked();
     g_extractor_data.options.bAnalyze = true;
+    g_extractor_data.options.emode = (XExtractor::EMODE)(ui->comboBoxExtractorMode->currentData().toInt());
     // extractor_data.options.bHeuristicScan = ui->checkBoxHeuristicScan->isChecked();
 
     g_extractor_data.memoryMap = XFormats::getMemoryMap((XBinary::FT)(ui->comboBoxType->currentData().toULongLong()),
@@ -131,7 +148,7 @@ void XExtractorWidget::reload()
 
             for (qint32 i = 0; i < nNumberOfRecords; i++) {
 
-                QString sComment = "TST";
+                QString sComment = g_extractor_data.listRecords.at(i).sString;
                 XInfoDB::BOOKMARKRECORD record = {};
                 record.sUUID = XBinary::generateUUID();
                 record.sColorBackground = QColor(Qt::yellow).name();
