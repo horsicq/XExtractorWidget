@@ -126,7 +126,7 @@ void XExtractorWidget::reload()
     // extractor_data.options.bHeuristicScan = ui->checkBoxHeuristicScan->isChecked();
 
     g_extractor_data.memoryMap = XFormats::getMemoryMap((XBinary::FT)(ui->comboBoxType->currentData().toULongLong()),
-                                                            (XBinary::MAPMODE)(ui->comboBoxMapMode->currentData().toULongLong()), g_pDevice);
+                                                        (XBinary::MAPMODE)(ui->comboBoxMapMode->currentData().toULongLong()), g_pDevice);
 
     XExtractor xextractor;
     XDialogProcess dep(XOptions::getMainWidget(this), &xextractor);
@@ -147,7 +147,6 @@ void XExtractorWidget::reload()
             qint32 nNumberOfRecords = g_extractor_data.listRecords.count();
 
             for (qint32 i = 0; i < nNumberOfRecords; i++) {
-
                 QString sComment = g_extractor_data.listRecords.at(i).sString;
                 XInfoDB::BOOKMARKRECORD record = {};
                 record.sUUID = XBinary::generateUUID();
@@ -343,7 +342,7 @@ void XExtractorWidget::viewSelection()
             DumpProcess::RECORD record = getDumpProcessRecord(indexNumber);
 
             if (record.nOffset != -1) {
-                emit currentLocationChanged(record.nOffset, XBinary::LT_OFFSET, record.nSize); // TODO mb remove, use signals from widgetHex
+                emit currentLocationChanged(record.nOffset, XBinary::LT_OFFSET, record.nSize);  // TODO mb remove, use signals from widgetHex
 
                 ui->widgetHex->goToLocation(record.nOffset, XBinary::LT_OFFSET);
                 ui->widgetHex->setLocationOffset(record.nOffset, XBinary::LT_OFFSET, record.nSize);
