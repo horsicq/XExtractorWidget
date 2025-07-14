@@ -93,6 +93,10 @@ void XExtractorWidget::setData(QIODevice *pDevice, XInfoDB *pXInfoDB, const XExt
 
         ui->comboBoxExtractorMode->addItem(XExtractor::extractorModeToString(XExtractor::EMODE_RAW), XExtractor::EMODE_RAW);
 
+        if (XExtractor::isUnpackModeAvailable(fileType)) {
+            ui->comboBoxExtractorMode->addItem(XExtractor::extractorModeToString(XExtractor::EMODE_UNPACK), XExtractor::EMODE_UNPACK);
+        }
+
         ui->comboBoxExtractorMode->blockSignals(bBlock);
     }
 
@@ -147,16 +151,25 @@ void XExtractorWidget::reload()
             qint32 nNumberOfRecords = g_extractor_data.listRecords.count();
 
             for (qint32 i = 0; i < nNumberOfRecords; i++) {
-                QString sComment = g_extractor_data.listRecords.at(i).sString;
-                XInfoDB::BOOKMARKRECORD record = {};
-                record.sUUID = XBinary::generateUUID();
-                record.sColorBackground = QColor(Qt::yellow).name();
-                record.nLocation = g_extractor_data.listRecords.at(i).nOffset;
-                record.locationType = XBinary::LT_OFFSET;
-                record.nSize = g_extractor_data.listRecords.at(i).nSize;
-                record.sComment = sComment;
+                bool bAdd = true;
 
-                g_pXInfoDB->_addBookmarkRecord(record);
+                if ((g_extractor_data.listRecords.at(i).nOffset == 0) && ((XBinary::FT)(ui->comboBoxType->currentData().toULongLong()) == g_extractor_data.listRecords.at(i).fileType)) {
+                    bAdd = false;
+                }
+
+                if (bAdd) {
+                    QString sComment = g_extractor_data.listRecords.at(i).sString;
+
+                    XInfoDB::BOOKMARKRECORD record = {};
+                    record.sUUID = XBinary::generateUUID();
+                    record.sColorBackground = QColor(Qt::yellow).name();
+                    record.nLocation = g_extractor_data.listRecords.at(i).nOffset;
+                    record.locationType = XBinary::LT_OFFSET;
+                    record.nSize = g_extractor_data.listRecords.at(i).nSize;
+                    record.sComment = sComment;
+
+                    g_pXInfoDB->_addBookmarkRecord(record);
+                }
             }
 
             if (nNumberOfRecords) {
@@ -365,3 +378,11 @@ void XExtractorWidget::on_tableViewSelection(const QItemSelection &itemSelected,
 
     viewSelection();
 }
+
+void XExtractorWidget::on_comboBoxExtractorMode_currentIndexChanged(int index)
+{
+    XExtractor::EMODE emode = (XExtractor::EMODE)(ui->comboBoxExtractorMode->itemData(index).toInt());
+
+    ui->comboBoxOptions->setEnabled(emode != XExtractor::EMODE_UNPACK);
+}
+
