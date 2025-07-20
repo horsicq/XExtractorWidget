@@ -153,7 +153,8 @@ void XExtractorWidget::reload()
             for (qint32 i = 0; i < nNumberOfRecords; i++) {
                 bool bAdd = true;
 
-                if ((g_extractor_data.listRecords.at(i).nOffset == 0) && ((XBinary::FT)(ui->comboBoxType->currentData().toULongLong()) == g_extractor_data.listRecords.at(i).fileType)) {
+                if ((g_extractor_data.listRecords.at(i).nOffset == 0) &&
+                    ((XBinary::FT)(ui->comboBoxType->currentData().toULongLong()) == g_extractor_data.listRecords.at(i).fileType)) {
                     bAdd = false;
                 }
 
@@ -385,4 +386,3 @@ void XExtractorWidget::on_comboBoxExtractorMode_currentIndexChanged(int index)
 
     ui->comboBoxOptions->setEnabled(emode != XExtractor::EMODE_UNPACK);
 }
-
