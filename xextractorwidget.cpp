@@ -124,13 +124,15 @@ void XExtractorWidget::reload()
         g_extractor_data.options.listFileTypes.append((XBinary::FT)listFlags.at(i));
     }
 
+    g_extractor_data.options.fileType = (XBinary::FT)(ui->comboBoxType->currentData().toULongLong());
     g_extractor_data.options.bDeepScan = ui->checkBoxDeepScan->isChecked();
     g_extractor_data.options.bAnalyze = true;
     g_extractor_data.options.emode = (XExtractor::EMODE)(ui->comboBoxExtractorMode->currentData().toInt());
     // extractor_data.options.bHeuristicScan = ui->checkBoxHeuristicScan->isChecked();
 
     g_extractor_data.memoryMap = XFormats::getMemoryMap((XBinary::FT)(ui->comboBoxType->currentData().toULongLong()),
-                                                        (XBinary::MAPMODE)(ui->comboBoxMapMode->currentData().toULongLong()), g_pDevice);
+                                                        (XBinary::MAPMODE)(ui->comboBoxMapMode->currentData().toULongLong()),
+                                                        g_pDevice, false, -1);
 
     XExtractor xextractor;
     XDialogProcess dep(XOptions::getMainWidget(this), &xextractor);
