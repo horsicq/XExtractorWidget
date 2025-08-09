@@ -131,8 +131,7 @@ void XExtractorWidget::reload()
     // extractor_data.options.bHeuristicScan = ui->checkBoxHeuristicScan->isChecked();
 
     g_extractor_data.memoryMap = XFormats::getMemoryMap((XBinary::FT)(ui->comboBoxType->currentData().toULongLong()),
-                                                        (XBinary::MAPMODE)(ui->comboBoxMapMode->currentData().toULongLong()),
-                                                        g_pDevice, false, -1);
+                                                        (XBinary::MAPMODE)(ui->comboBoxMapMode->currentData().toULongLong()), g_pDevice, false, -1);
 
     XExtractor xextractor;
     XDialogProcess dep(XOptions::getMainWidget(this), &xextractor);
