@@ -160,6 +160,12 @@
        <property name="orientation">
         <enum>Qt::Orientation::Horizontal</enum>
        </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
       </spacer>
      </item>
      <item>
@@ -211,7 +217,7 @@
        <bool>false</bool>
       </attribute>
      </widget>
-     <widget class="XHexView" name="widgetHex" native="true">
+     <widget class="XHexViewEx" name="widgetHex">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
         <horstretch>0</horstretch>
@@ -225,9 +231,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>XHexView</class>
-   <extends>QWidget</extends>
-   <header>xhexview.h</header>
+   <class>XHexViewEx</class>
+   <extends>QScrollArea</extends>
+   <header>xhexviewex.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
