@@ -102,8 +102,7 @@ void XExtractorWidget::setData(QIODevice *pDevice, XInfoDB *pXInfoDB, const XExt
 
     XHexView::OPTIONS hex_options = {};
 
-    ui->widgetHex->setData(pDevice, hex_options, true);
-    ui->widgetHex->setXInfoDB(g_pXInfoDB);
+    ui->widgetHex->setData(pDevice, hex_options, true, g_pXInfoDB);
 
     if (bAuto) {
         reload();
