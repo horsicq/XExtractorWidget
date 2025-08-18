@@ -44,18 +44,6 @@ XExtractorWidget::XExtractorWidget(QWidget *pParent) : XShortcutsWidget(pParent)
     g_pDevice = nullptr;
     g_pXInfoDB = nullptr;
     g_options = {};
-
-    QList<XComboBoxEx::CUSTOM_FLAG> listCustomFlags;
-
-    QList<XBinary::FT> listFileTypes = XExtractor::getAvailableFileTypes();
-
-    qint32 nNumberOfRecords = listFileTypes.count();
-
-    for (qint32 i = 0; i < nNumberOfRecords; i++) {
-        XComboBoxEx::_addCustomFlag(&listCustomFlags, listFileTypes.at(i), XFormats::getFileFormatExtsString(listFileTypes.at(i)), false);
-    }
-
-    ui->comboBoxOptions->addCustomFlags(tr("Options"), listCustomFlags);
 }
 
 XExtractorWidget::~XExtractorWidget()
@@ -69,17 +57,14 @@ void XExtractorWidget::setData(QIODevice *pDevice, XInfoDB *pXInfoDB, const XExt
     g_pXInfoDB = pXInfoDB;
     g_options = options;
 
-    qint32 nNumberOfRecords = options.listFileTypes.count();
-
-    for (qint32 i = 0; i < nNumberOfRecords; i++) {
-        ui->comboBoxOptions->setCustomFlag(options.listFileTypes.at(i));
-    }
-
     ui->checkBoxDeepScan->setChecked(options.bDeepScan);
     // ui->checkBoxHeuristicScan->setChecked(options.bHeuristicScan);
 
     XBinary::FT fileType = XFormats::setFileTypeComboBox(options.fileType, g_pDevice, ui->comboBoxType);
     XFormats::getMapModesList(fileType, ui->comboBoxMapMode);
+
+    bool bFormat = XExtractor::isFormatModeAvailable(fileType);
+    bool bUnpack = XExtractor::isUnpackModeAvailable(fileType);
 
     {
         bool bBlock = ui->comboBoxExtractorMode->blockSignals(true);
@@ -87,18 +72,54 @@ void XExtractorWidget::setData(QIODevice *pDevice, XInfoDB *pXInfoDB, const XExt
         ui->comboBoxExtractorMode->clear();
         ui->comboBoxExtractorMode->addItem(XExtractor::extractorModeToString(XExtractor::EMODE_HEURISTIC), XExtractor::EMODE_HEURISTIC);
 
-        if (XExtractor::isFormatModeAvailable(fileType)) {
+        if (bFormat) {
             ui->comboBoxExtractorMode->addItem(XExtractor::extractorModeToString(XExtractor::EMODE_FORMAT), XExtractor::EMODE_FORMAT);
         }
 
         ui->comboBoxExtractorMode->addItem(XExtractor::extractorModeToString(XExtractor::EMODE_RAW), XExtractor::EMODE_RAW);
 
-        if (XExtractor::isUnpackModeAvailable(fileType)) {
+        if (bUnpack) {
             ui->comboBoxExtractorMode->addItem(XExtractor::extractorModeToString(XExtractor::EMODE_UNPACK), XExtractor::EMODE_UNPACK);
         }
 
+        XFormats::setComboBoxCurrent(ui->comboBoxExtractorMode, options.emode);
+
         ui->comboBoxExtractorMode->blockSignals(bBlock);
     }
+
+    {
+        XExtractor::EMODE emode = (XExtractor::EMODE)(ui->comboBoxExtractorMode->currentData().toInt());
+
+        if (emode == XExtractor::EMODE_HEURISTIC) {
+            if (bFormat) {
+                emode = XExtractor::EMODE_FORMAT;
+            } else {
+                emode = XExtractor::EMODE_RAW;
+            }
+        }
+
+        QList<XComboBoxEx::CUSTOM_FLAG> listCustomFlags;
+
+        QList<XBinary::FT> listFileTypes = XExtractor::getAvailableFileTypes(emode);
+
+        qint32 nNumberOfRecords = listFileTypes.count();
+
+        for (qint32 i = 0; i < nNumberOfRecords; i++) {
+            XComboBoxEx::_addCustomFlag(&listCustomFlags, listFileTypes.at(i), XFormats::getFileFormatExtsString(listFileTypes.at(i)), false);
+        }
+
+        ui->comboBoxOptions->clear();
+        ui->comboBoxOptions->addCustomFlags(tr("Options"), listCustomFlags);
+    }
+    {
+        qint32 nNumberOfRecords = options.listFileTypes.count();
+
+        for (qint32 i = 0; i < nNumberOfRecords; i++) {
+            ui->comboBoxOptions->setCustomFlag(options.listFileTypes.at(i));
+        }
+    }
+
+    ui->checkBoxAllTypes->setChecked(options.bAllTypes);
 
     XHexView::OPTIONS hex_options = {};
 
@@ -386,3 +407,11 @@ void XExtractorWidget::on_comboBoxExtractorMode_currentIndexChanged(int index)
 
     ui->comboBoxOptions->setEnabled(emode != XExtractor::EMODE_UNPACK);
 }
+
+void XExtractorWidget::on_checkBoxAllTypes_checkStateChanged(const Qt::CheckState &checkState)
+{
+    Q_UNUSED(checkState)
+
+    ui->comboBoxType->setEnabled(!ui->checkBoxAllTypes->isChecked());
+}
+

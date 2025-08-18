@@ -130,6 +130,23 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
+      <widget class="QComboBox" name="comboBoxExtractorMode">
+       <property name="minimumSize">
+        <size>
+         <width>120</width>
+         <height>0</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="checkBoxAllTypes">
+       <property name="text">
+        <string>All</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="XComboBoxEx" name="comboBoxOptions">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -140,16 +157,6 @@
        <property name="minimumSize">
         <size>
          <width>200</width>
-         <height>0</height>
-        </size>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="comboBoxExtractorMode">
-       <property name="minimumSize">
-        <size>
-         <width>120</width>
          <height>0</height>
         </size>
        </property>

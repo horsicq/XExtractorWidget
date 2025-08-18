@@ -59,6 +59,7 @@ private slots:
     void on_tableViewResult_clicked(const QModelIndex &index);
     void on_tableViewSelection(const QItemSelection &itemSelected, const QItemSelection &itemDeselected);
     void on_comboBoxExtractorMode_currentIndexChanged(int index);
+    void on_checkBoxAllTypes_checkStateChanged(const Qt::CheckState &checkState);
 
 protected:
     virtual void registerShortcuts(bool bState);
