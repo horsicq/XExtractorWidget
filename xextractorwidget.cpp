@@ -414,4 +414,3 @@ void XExtractorWidget::on_checkBoxAllTypes_checkStateChanged(const Qt::CheckStat
 
     ui->comboBoxType->setEnabled(!ui->checkBoxAllTypes->isChecked());
 }
-
