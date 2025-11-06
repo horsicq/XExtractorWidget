@@ -302,11 +302,11 @@ void XExtractorWidget::on_tableViewResult_customContextMenuRequested(const QPoin
             getShortcuts()->_addMenuItem(&listMenuItems, X_ID_TABLE_FOLLOWIN_HEX, this, SLOT(_hexSlot()), XShortcuts::GROUPID_FOLLOWIN);
         }
 
-        QList<QObject *> listObjects = getShortcuts()->adjustContextMenu(&contextMenu, &listMenuItems);
+        getShortcuts()->adjustContextMenu(&contextMenu, &listMenuItems);
 
         contextMenu.exec(ui->tableViewResult->viewport()->mapToGlobal(pos));
 
-        XOptions::deleteQObjectList(&listObjects);
+
     }
 }
 
