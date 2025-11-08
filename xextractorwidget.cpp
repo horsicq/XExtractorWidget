@@ -305,8 +305,6 @@ void XExtractorWidget::on_tableViewResult_customContextMenuRequested(const QPoin
         getShortcuts()->adjustContextMenu(&contextMenu, &listMenuItems);
 
         contextMenu.exec(ui->tableViewResult->viewport()->mapToGlobal(pos));
-
-
     }
 }
 
