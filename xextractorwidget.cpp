@@ -78,10 +78,6 @@ void XExtractorWidget::setData(QIODevice *pDevice, XInfoDB *pXInfoDB, const XExt
 
         ui->comboBoxExtractorMode->addItem(XExtractor::extractorModeToString(XExtractor::EMODE_RAW), XExtractor::EMODE_RAW);
 
-        if (bUnpack) {
-            ui->comboBoxExtractorMode->addItem(XExtractor::extractorModeToString(XExtractor::EMODE_UNPACK), XExtractor::EMODE_UNPACK);
-        }
-
         XFormats::setComboBoxCurrent(ui->comboBoxExtractorMode, options.emode);
 
         ui->comboBoxExtractorMode->blockSignals(bBlock);
@@ -401,9 +397,7 @@ void XExtractorWidget::on_tableViewSelection(const QItemSelection &itemSelected,
 
 void XExtractorWidget::on_comboBoxExtractorMode_currentIndexChanged(int index)
 {
-    XExtractor::EMODE emode = (XExtractor::EMODE)(ui->comboBoxExtractorMode->itemData(index).toInt());
-
-    ui->comboBoxOptions->setEnabled(emode != XExtractor::EMODE_UNPACK);
+    // TODO
 }
 
 void XExtractorWidget::on_checkBoxAllTypes_checkStateChanged(const Qt::CheckState &checkState)
