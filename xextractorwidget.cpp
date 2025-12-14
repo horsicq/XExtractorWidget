@@ -42,8 +42,8 @@ XExtractorWidget::XExtractorWidget(QWidget *pParent) : XShortcutsWidget(pParent)
     ui->comboBoxExtractorMode->setToolTip(tr("Mode"));
 
     m_pDevice = nullptr;
-    g_pXInfoDB = nullptr;
-    g_options = {};
+    m_pXInfoDB = nullptr;
+    m_options = {};
 }
 
 XExtractorWidget::~XExtractorWidget()
@@ -54,8 +54,8 @@ XExtractorWidget::~XExtractorWidget()
 void XExtractorWidget::setData(QIODevice *pDevice, XInfoDB *pXInfoDB, const XExtractor::OPTIONS &options, bool bAuto)
 {
     m_pDevice = pDevice;
-    g_pXInfoDB = pXInfoDB;
-    g_options = options;
+    m_pXInfoDB = pXInfoDB;
+    m_options = options;
 
     ui->checkBoxDeepScan->setChecked(options.bDeepScan);
     // ui->checkBoxHeuristicScan->setChecked(options.bHeuristicScan);
@@ -119,7 +119,7 @@ void XExtractorWidget::setData(QIODevice *pDevice, XInfoDB *pXInfoDB, const XExt
 
     XHexView::OPTIONS hex_options = {};
 
-    ui->widgetHex->setData(pDevice, hex_options, true, g_pXInfoDB);
+    ui->widgetHex->setData(pDevice, hex_options, true, m_pXInfoDB);
 
     if (bAuto) {
         reload();
@@ -130,68 +130,68 @@ void XExtractorWidget::reload()
 {
     ui->labelSize->setText(XBinary::valueToHexEx(m_pDevice->size()));
 
-    g_extractor_data = {};
+    m_extractor_data = {};
 
     QList<quint64> listFlags = ui->comboBoxOptions->getCustomFlags();
 
     qint32 nNumberOfRecords = listFlags.count();
 
     for (qint32 i = 0; i < nNumberOfRecords; i++) {
-        g_extractor_data.options.listFileTypes.append((XBinary::FT)listFlags.at(i));
+        m_extractor_data.options.listFileTypes.append((XBinary::FT)listFlags.at(i));
     }
 
-    g_extractor_data.options.fileType = (XBinary::FT)(ui->comboBoxType->currentData().toULongLong());
-    g_extractor_data.options.bDeepScan = ui->checkBoxDeepScan->isChecked();
-    g_extractor_data.options.bAnalyze = true;
-    g_extractor_data.options.emode = (XExtractor::EMODE)(ui->comboBoxExtractorMode->currentData().toInt());
+    m_extractor_data.options.fileType = (XBinary::FT)(ui->comboBoxType->currentData().toULongLong());
+    m_extractor_data.options.bDeepScan = ui->checkBoxDeepScan->isChecked();
+    m_extractor_data.options.bAnalyze = true;
+    m_extractor_data.options.emode = (XExtractor::EMODE)(ui->comboBoxExtractorMode->currentData().toInt());
     // extractor_data.options.bHeuristicScan = ui->checkBoxHeuristicScan->isChecked();
 
-    g_extractor_data.memoryMap = XFormats::getMemoryMap((XBinary::FT)(ui->comboBoxType->currentData().toULongLong()),
+    m_extractor_data.memoryMap = XFormats::getMemoryMap((XBinary::FT)(ui->comboBoxType->currentData().toULongLong()),
                                                         (XBinary::MAPMODE)(ui->comboBoxMapMode->currentData().toULongLong()), m_pDevice, false, -1);
 
     XExtractor xextractor;
     XDialogProcess dep(XOptions::getMainWidget(this), &xextractor);
     dep.setGlobal(getShortcuts(), getGlobalOptions());
-    xextractor.setData(m_pDevice, &g_extractor_data, dep.getPdStruct());
+    xextractor.setData(m_pDevice, &m_extractor_data, dep.getPdStruct());
     dep.start();
     dep.showDialogDelay();
 
     if (dep.isSuccess()) {
-        XModel_Extractor *pModel = new XModel_Extractor(&g_extractor_data, this);
+        XModel_Extractor *pModel = new XModel_Extractor(&m_extractor_data, this);
 
         ui->tableViewResult->setCustomModel(pModel, true);
 
         connect(ui->tableViewResult->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this,
                 SLOT(on_tableViewSelection(QItemSelection, QItemSelection)));
 
-        if (g_pXInfoDB) {
-            qint32 nNumberOfRecords = g_extractor_data.listRecords.count();
+        if (m_pXInfoDB) {
+            qint32 nNumberOfRecords = m_extractor_data.listRecords.count();
 
             for (qint32 i = 0; i < nNumberOfRecords; i++) {
                 bool bAdd = true;
 
-                if ((g_extractor_data.listRecords.at(i).nOffset == 0) &&
-                    ((XBinary::FT)(ui->comboBoxType->currentData().toULongLong()) == g_extractor_data.listRecords.at(i).fileType)) {
+                if ((m_extractor_data.listRecords.at(i).nOffset == 0) &&
+                    ((XBinary::FT)(ui->comboBoxType->currentData().toULongLong()) == m_extractor_data.listRecords.at(i).fileType)) {
                     bAdd = false;
                 }
 
                 if (bAdd) {
-                    QString sComment = g_extractor_data.listRecords.at(i).sString;
+                    QString sComment = m_extractor_data.listRecords.at(i).sString;
 
                     XInfoDB::BOOKMARKRECORD record = {};
                     record.sUUID = XBinary::generateUUID();
                     record.sColorBackground = QColor(Qt::yellow).name();
-                    record.nLocation = g_extractor_data.listRecords.at(i).nOffset;
+                    record.nLocation = m_extractor_data.listRecords.at(i).nOffset;
                     record.locationType = XBinary::LT_OFFSET;
-                    record.nSize = g_extractor_data.listRecords.at(i).nSize;
+                    record.nSize = m_extractor_data.listRecords.at(i).nSize;
                     record.sComment = sComment;
 
-                    g_pXInfoDB->_addBookmarkRecord(record);
+                    m_pXInfoDB->_addBookmarkRecord(record);
                 }
             }
 
             if (nNumberOfRecords) {
-                g_pXInfoDB->reloadView();
+                m_pXInfoDB->reloadView();
             }
         }
     }
@@ -294,7 +294,7 @@ void XExtractorWidget::on_tableViewResult_customContextMenuRequested(const QPoin
         getShortcuts()->_addMenuItem(&listMenuItems, X_ID_TABLE_SELECTION_DUMPTOFILE, this, SLOT(dumpToFile()), XShortcuts::GROUPID_NONE);
         getShortcuts()->_addMenuItem_CopyRow(&listMenuItems, ui->tableViewResult);
 
-        if (g_options.bMenu_Hex) {
+        if (m_options.bMenu_Hex) {
             getShortcuts()->_addMenuItem(&listMenuItems, X_ID_TABLE_FOLLOWIN_HEX, this, SLOT(_hexSlot()), XShortcuts::GROUPID_FOLLOWIN);
         }
 
@@ -328,7 +328,7 @@ void XExtractorWidget::dumpToFile()
 
 void XExtractorWidget::_hexSlot()
 {
-    if (g_options.bMenu_Hex) {
+    if (m_options.bMenu_Hex) {
         qint32 nRow = ui->tableViewResult->currentIndex().row();
 
         if (nRow != -1) {

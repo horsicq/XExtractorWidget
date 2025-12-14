@@ -67,9 +67,9 @@ protected:
 private:
     Ui::XExtractorWidget *ui;
     QIODevice *m_pDevice;
-    XInfoDB *g_pXInfoDB;
-    XExtractor::OPTIONS g_options;
-    XExtractor::DATA g_extractor_data;
+    XInfoDB *m_pXInfoDB;
+    XExtractor::OPTIONS m_options;
+    XExtractor::DATA m_extractor_data;
 };
 
 #endif  // XEXTRACTORWIDGET_H
