@@ -117,7 +117,7 @@ void XExtractorWidget::setData(QIODevice *pDevice, XInfoDB *pXInfoDB, const XExt
 
     ui->checkBoxAllTypes->setChecked(options.bAllTypes);
 
-    XHexView::OPTIONS hex_options = {};
+    XBinaryView::OPTIONS hex_options = {};
 
     ui->widgetHex->setData(pDevice, hex_options, true, m_pXInfoDB);
 
