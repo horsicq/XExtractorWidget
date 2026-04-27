@@ -132,12 +132,12 @@ void XExtractorWidget::reload()
 
     m_extractor_data = {};
 
-    QList<quint64> listFlags = ui->comboBoxOptions->getCustomFlags();
+    QList<QVariant> listFlags = ui->comboBoxOptions->getCustomFlags();
 
     qint32 nNumberOfRecords = listFlags.count();
 
     for (qint32 i = 0; i < nNumberOfRecords; i++) {
-        m_extractor_data.options.listFileTypes.append((XBinary::FT)listFlags.at(i));
+        m_extractor_data.options.listFileTypes.append((XBinary::FT)(listFlags.at(i).toULongLong()));
     }
 
     m_extractor_data.options.fileType = (XBinary::FT)(ui->comboBoxType->currentData().toULongLong());
