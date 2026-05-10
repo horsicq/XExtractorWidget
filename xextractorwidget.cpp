@@ -205,9 +205,9 @@ DumpProcess::RECORD XExtractorWidget::getDumpProcessRecord(QModelIndex index)
     result.nSize = ui->tableViewResult->model()->data(index, Qt::UserRole + XModel::USERROLE_SIZE).toLongLong();
     QString sExt = ui->tableViewResult->model()->data(index, Qt::UserRole + XModel::USERROLE_STRING2).toString();
 
-    QString sName = QString("%1_%2").arg(XBinary::valueToHexEx(result.nOffset), XBinary::valueToHexEx(result.nSize));
+    QString sName = QString("%1_%2").arg(XBinary::valueToHexEx(result.nOffset)).arg(XBinary::valueToHexEx(result.nSize));
 
-    result.sFileName = XBinary::getResultFileName(m_pDevice, QString("%1.%2").arg(sName, sExt));
+    result.sFileName = XBinary::getResultFileName(m_pDevice, QString("%1.%2").arg(sName).arg(sExt));
 
     return result;
 }
